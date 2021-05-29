@@ -1,6 +1,6 @@
 <?php
 
-namespace LinAung\IchiApiAuthentication;
+namespace JiJiHoHoCoCo\IchiApiAuthentication;
 
 class ApiAuthenticationServiceProvider{
 	
