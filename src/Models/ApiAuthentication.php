@@ -14,4 +14,12 @@ class ApiAuthentication extends Model{
 	"model_id",
 	"token",
 	"expired_at"];
+
+	public function setExpiredAt($expired_at){
+		$this->expired_at=$expired_at;
+	}
+
+	public function getExpiredAt(){
+		return $this->expired_at;
+	}
 }
