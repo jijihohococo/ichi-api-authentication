@@ -1,8 +1,8 @@
 <?php
 
 namespace JiJiHoHoCoCo\IchiApiAuthentication;
-
-class ApiAuthenticationServiceProvider{
+use Illuminate\Support\ServiceProvider;
+class ApiAuthenticationServiceProvider extends ServiceProvider{
 	
 	public function boot(){
 
