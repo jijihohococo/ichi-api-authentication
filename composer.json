@@ -14,10 +14,12 @@
 		"illuminate/database": "^8.44"
 	},
 	"autoload": {
-		"App\\": "app/",
         "psr-4": {
             "JiJiHoHoCoCo\\IchiApiAuthentication\\": "src/"
-        }
+        },
+        "files": [
+        	"src/helpers.php"
+        ]
     },
 	"require-dev": {
 		"phpunit/phpunit": "^9.5"
