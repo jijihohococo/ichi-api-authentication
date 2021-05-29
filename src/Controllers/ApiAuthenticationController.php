@@ -5,6 +5,6 @@ use JiJiHoHoCoCo\IchiApiAuthentication\Models\ApiAuthentication;
 
 class ApiAuthenticationController{
 	public function generateToken($guardName,$model){
-
+		return "hi";
 	}
 }
