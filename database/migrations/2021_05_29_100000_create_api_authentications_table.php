@@ -6,9 +6,16 @@ use Illuminate\Support\Facades\Schema;
 
 class CreateApiAuthenticationTable{
     
+    protected $schema;
+
+    public function __construct()
+    {
+        $this->schema = Schema::connection($this->getConnection());
+    }
+
 	public function up()
     {
-        Schema::create('api_authentications', function (Blueprint $table) {
+        $this->schema->create('api_authentications', function (Blueprint $table) {
             $table->id();
             $table->string('guard_name');
             $table->string('model_name');
@@ -21,6 +28,6 @@ class CreateApiAuthenticationTable{
 
     public function down()
     {
-        Schema::dropIfExists('api_authentications');
+        $this->schema->dropIfExists('api_authentications');
     }
 }
