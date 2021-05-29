@@ -14,8 +14,9 @@
 		"illuminate/database": "^8.44"
 	},
 	"autoload": {
+		"App\\": "app/",
         "psr-4": {
-            "IchiApiAuthentication\\": "src/"
+            "JiJiHoHoCoCo\\IchiApiAuthentication\\": "src/"
         }
     },
 	"require-dev": {
