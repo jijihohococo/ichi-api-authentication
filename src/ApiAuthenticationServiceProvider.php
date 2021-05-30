@@ -6,11 +6,16 @@ class ApiAuthenticationServiceProvider extends ServiceProvider{
 	
 	public function boot(){
 		if ($this->app->runningInConsole()) {
+			
 			$this->registerMigrations();
 
 			$this->publishes([
 				__DIR__.'/../database/migrations' => database_path('migrations'),
 			], 'ichi-migrations');
+
+			$this->publishes([
+                __DIR__.'/../config/ichi.php' => config_path('ichi.php'),
+            ], 'ichi-config');
 		}
 
 	}
