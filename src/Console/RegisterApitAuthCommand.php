@@ -2,8 +2,6 @@
 
 namespace JiJiHoHoCoCo\IchiApiAuthentication\Console;
 use Illuminate\Console\Command;
-class InstallCommand extends Command{
-
-	
+class RegisterApiAuthCommand extends Command{
 
 }
