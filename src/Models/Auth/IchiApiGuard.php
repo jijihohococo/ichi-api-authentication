@@ -2,9 +2,15 @@
 
 namespace JiJiHoHoCoCo\IchiApiAuthentication\Models\Auth;
 use Illuminate\Contracts\Auth\{Guard,Authenticatable};
-
-
+use Illuminate\Contracts\Auth\UserProvider;
+use Illuminate\Http\Request;
 class IchiApiGuard implements Guard{
+
+     public $provider , $request ;
+     public function __construct(UserProvider $provider,Request $request){
+          $this->provider=$provider;
+          $this->request=$request;
+     }
 
 	/**
      * Determine if the current user is authenticated.

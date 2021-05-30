@@ -2,6 +2,7 @@
 
 namespace JiJiHoHoCoCo\IchiApiAuthentication;
 use Illuminate\Support\ServiceProvider;
+use Illuminate\Support\Facades\Auth;
 class ApiAuthenticationServiceProvider extends ServiceProvider{
 	
 	public function boot(){
