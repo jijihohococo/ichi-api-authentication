@@ -4,7 +4,7 @@ namespace JiJiHoHoCoCo\IchiApiAuthentication\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class TokenAuthentication extends Model{
+class IchiTokenAuthentication extends Model{
 
 	use HasFactory;
 
@@ -23,7 +23,7 @@ class TokenAuthentication extends Model{
 		}
 
 		public function apiAuthentication(){
-			return $this->belongsTo('Models\ApiAuthentication','api_authentication_id')->withDefault();
+			return $this->belongsTo('Models\IchiApiAuthentication','api_authentication_id')->withDefault();
 		}
 
 

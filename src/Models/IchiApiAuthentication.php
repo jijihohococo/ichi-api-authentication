@@ -4,7 +4,7 @@ namespace JiJiHoHoCoCo\IchiApiAuthentication\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class ApiAuthentication extends Model{
+class IchiApiAuthentication extends Model{
 	
 	use HasFactory;
 

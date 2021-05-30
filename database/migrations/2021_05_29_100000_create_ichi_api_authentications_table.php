@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateTokenAuthenticationTable{
+class CreateIchiApiAuthenticationTable{
     
     protected $schema;
 
@@ -13,20 +13,18 @@ class CreateTokenAuthenticationTable{
         $this->schema = Schema::connection($this->getConnection());
     }
 
-    public function up()
+	public function up()
     {
-        $this->schema->create('token_authentications', function (Blueprint $table) {
+        $this->schema->create('ichi_api_authentications', function (Blueprint $table) {
             $table->id();
-            $table->string('user_id');
-            $table->string('token');
-            $table->string('expired_at');
-            $table->integer('api_authentication_id');
+            $table->string('guard_name');
+            $table->string('model_name');
             $table->timestamps();
         });
     }
 
     public function down()
     {
-        $this->schema->dropIfExists('token_authentications');
+        $this->schema->dropIfExists('ichi_api_authentications');
     }
 }
