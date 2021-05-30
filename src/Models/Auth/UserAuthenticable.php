@@ -2,8 +2,9 @@
 
 namespace JiJiHoHoCoCo\IchiApiAuthentication\Models\Auth;
 use Illuminate\Contracts\Auth\Authenticatable;
+use JiJiHoHoCoCo\IchiApiAuthentication\Models\TokenAuthentication;
 
-class UserAuthenticable implements Authenticatable{
+abstract class UserAuthenticable implements Authenticatable{
 
 	/**
      * Get the name of the unique identifier for the user.
@@ -57,7 +58,7 @@ class UserAuthenticable implements Authenticatable{
      * @return string
      */
     public function getRememberTokenName(){
-    	
+
     }
 
 }
