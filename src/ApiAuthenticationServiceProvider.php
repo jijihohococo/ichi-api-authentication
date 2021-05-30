@@ -10,6 +10,8 @@ class ApiAuthenticationServiceProvider extends ServiceProvider{
 			
 			$this->registerMigrations();
 
+			$this->registerGuard();
+
 			$this->publishes([
 				__DIR__.'/../database/migrations' => database_path('migrations'),
 			], 'ichi-migrations');
@@ -23,6 +25,16 @@ class ApiAuthenticationServiceProvider extends ServiceProvider{
             	Console\InstallCommand::class
             ]);
 		}
+
+	}
+
+	public function registerGuard(){
+		return Auth::extend('ichi',function($app,$name,array $config){
+
+		});
+	}
+
+	public function registerProvider(){
 
 	}
 
