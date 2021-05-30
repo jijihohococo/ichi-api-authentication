@@ -8,9 +8,9 @@ class ApiAuthenticationServiceProvider extends ServiceProvider{
 		if ($this->app->runningInConsole()) {
 			$this->registerMigrations();
 
-			$this->publishes([
-				__DIR__.'/../database/migrations' => database_path('migrations'),
-			], 'ichi-migrations');
+			// $this->publishes([
+			// 	__DIR__.'/../database/migrations' => database_path('migrations'),
+			// ], 'ichi-migrations');
 		}
 
 	}
