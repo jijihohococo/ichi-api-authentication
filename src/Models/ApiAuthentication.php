@@ -11,12 +11,4 @@ class ApiAuthentication extends Model{
 	protected $fillable = [
 	'guard_name',
 	'model_name'];
-
-	public function setExpiredAt($expired_at){
-		$this->expired_at=$expired_at;
-	}
-
-	public function getExpiredAt(){
-		return $this->expired_at;
-	}
 }
