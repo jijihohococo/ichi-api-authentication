@@ -16,6 +16,11 @@ class ApiAuthenticationServiceProvider extends ServiceProvider{
 			$this->publishes([
                 __DIR__.'/../config/ichi.php' => config_path('ichi.php'),
             ], 'ichi-config');
+
+            $this->commands([
+            	Console\ApiAuthCommand::class,
+            	Console\InstallCommand::class
+            ]);
 		}
 
 	}
