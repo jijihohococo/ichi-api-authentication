@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateIchiTokenAuthenticationTable{
+class CreateIchiTokenAuthenticationTable extends Migration{
     
     protected $schema;
 
@@ -28,5 +28,10 @@ class CreateIchiTokenAuthenticationTable{
     public function down()
     {
         $this->schema->dropIfExists('ichi_token_authentications');
+    }
+
+    public function getConnection()
+    {
+        return config('ichi.storage.database.connection');
     }
 }
