@@ -9,7 +9,8 @@ class RegisterApiAuthCommand extends Command{
      *
      * @var string
      */
-    protected $signature ="";
+    protected $signature = 'ichi:client
+            {--password : Create a password grant client}';
 
 	/**
      * The console command description.
@@ -20,6 +21,10 @@ class RegisterApiAuthCommand extends Command{
 
     public function handle(){
 
+    }
+
+    public function createPasswordClient(){
+    	
     }
 
 }
