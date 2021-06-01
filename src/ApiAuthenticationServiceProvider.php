@@ -3,6 +3,8 @@
 namespace JiJiHoHoCoCo\IchiApiAuthentication;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\Auth;
+use JiJiHoHoCoCo\IchiApiAuthentication\IchiUserProvider;
+use Illuminate\Auth\RequestGuard;
 class ApiAuthenticationServiceProvider extends ServiceProvider{
 	
 	public function boot(){
@@ -10,31 +12,25 @@ class ApiAuthenticationServiceProvider extends ServiceProvider{
 			
 			$this->registerMigrations();
 
-			$this->registerGuard();
-
 			$this->publishes([
 				__DIR__.'/../database/migrations' => database_path('migrations'),
 			], 'ichi-migrations');
 
 			$this->publishes([
-                __DIR__.'/../config/ichi.php' => config_path('ichi.php'),
-            ], 'ichi-config');
+				__DIR__.'/../config/ichi.php' => config_path('ichi.php'),
+			], 'ichi-config');
 
-            $this->commands([
-            	Console\RegisterApiAuthCommand::class
-            ]);
+			$this->commands([
+				Console\RegisterApiAuthCommand::class
+			]);
 		}
 
 	}
 
 	public function registerGuard(){
-		return Auth::extend('ichi',function($app,$name,array $config){
-			dd($config);
+		Auth::extend('ichi', function($app, $name, array $config) {
+			return new UserGuard(Auth::createUserProvider($config['provider']));
 		});
-	}
-
-	public function registerProvider(){
-
 	}
 
 	public function registerMigrations(){
@@ -42,6 +38,6 @@ class ApiAuthenticationServiceProvider extends ServiceProvider{
 	}
 
 	public function register(){
-
+		$this->registerGuard();
 	}	
 }

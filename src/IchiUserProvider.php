@@ -11,8 +11,13 @@ class IchiUserProvider implements UserProvider{
      * @param  mixed  $identifier
      * @return \Illuminate\Contracts\Auth\Authenticatable|null
      */
-	public function retrieveById($identifier){
+    protected $provider;
+    public function __construct(UserProvider $provider){
+        $this->provider=$provider;
+    }
 
+	public function retrieveById($identifier){
+        return $this->provider->retrieveById($identifier);
 	}
 
     /**
@@ -23,7 +28,7 @@ class IchiUserProvider implements UserProvider{
      * @return \Illuminate\Contracts\Auth\Authenticatable|null
      */
     public function retrieveByToken($identifier, $token){
-
+        return $this->provider->retrieveByToken($identifier,$token);
     }
 
     /**
@@ -34,7 +39,7 @@ class IchiUserProvider implements UserProvider{
      * @return void
      */
     public function updateRememberToken(Authenticatable $user, $token){
-
+        return $this->provider->updateRememberToken($user,$token);
     }
 
     /**
@@ -44,7 +49,7 @@ class IchiUserProvider implements UserProvider{
      * @return \Illuminate\Contracts\Auth\Authenticatable|null
      */
     public function retrieveByCredentials(array $credentials){
-
+        return $this->provider->retrieveByCredentials($credentials);
     }
 
     /**
@@ -55,7 +60,7 @@ class IchiUserProvider implements UserProvider{
      * @return bool
      */
     public function validateCredentials(Authenticatable $user, array $credentials){
-
+        return $this->provider->validateCredentials($user,$credentials);
     }
 
 }
