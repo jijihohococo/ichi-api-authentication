@@ -2,7 +2,7 @@
 
 namespace JiJiHoHoCoCo\IchiApiAuthentication;
 use Illuminate\Contracts\Auth\Guard;
-class UserGuard extends Guard{
+class UserGuard implements Guard{
 	/**
      * Determine if the current user is authenticated.
      *
@@ -10,7 +10,7 @@ class UserGuard extends Guard{
      */
     public $provider;
     public function __construct($provider){
-        dd($provider);
+        $this->provider=$provider;
     }
 
 	public function check(){
