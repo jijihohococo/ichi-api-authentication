@@ -2,7 +2,7 @@
 
 namespace JiJiHoHoCoCo\IchiApiAuthentication;
 use Illuminate\Contracts\Auth\{Guard,Authenticatable};
-class UserGuard implements Guard{
+class UserGuard{
 	/**
      * Determine if the current user is authenticated.
      *
