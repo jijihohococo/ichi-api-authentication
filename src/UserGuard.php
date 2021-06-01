@@ -1,7 +1,7 @@
 <?php
 
 namespace JiJiHoHoCoCo\IchiApiAuthentication;
-use Illuminate\Contracts\Auth\Guard;
+use Illuminate\Contracts\Auth\{Guard,Authenticatable};
 class UserGuard implements Guard{
 	/**
      * Determine if the current user is authenticated.
