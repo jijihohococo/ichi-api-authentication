@@ -2,6 +2,7 @@
 
 namespace JiJiHoHoCoCo\IchiApiAuthentication\Console;
 use Illuminate\Console\Command;
+use Repository\ClientRepository;
 class RegisterApiAuthCommand extends Command{
 
 	/**
@@ -20,6 +21,9 @@ class RegisterApiAuthCommand extends Command{
     protected $description = 'Create Provider with guard to access api tokens';
 
     public function handle(){
+        if($this->options('password')){
+            $this->createPasswordClient();
+        }
 
     }
 
