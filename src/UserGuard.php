@@ -2,6 +2,7 @@
 
 namespace JiJiHoHoCoCo\IchiApiAuthentication;
 use Illuminate\Contracts\Auth\{Guard,Authenticatable,UserProvider};
+use Illuminate\Http\Request;
 class UserGuard{
 	/**
      * Determine if the current user is authenticated.
@@ -31,7 +32,7 @@ class UserGuard{
      *
      * @return \Illuminate\Contracts\Auth\Authenticatable|null
      */
-    public function user(){
+    public function user(Request $request){
 
     }
 
