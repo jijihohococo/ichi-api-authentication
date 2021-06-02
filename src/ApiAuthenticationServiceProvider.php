@@ -30,18 +30,18 @@ class ApiAuthenticationServiceProvider extends ServiceProvider{
 	public function registerGuard(){
 		Auth::extend('ichi', function($app, $name, array $config) {
 			return new RequestGuard(function($request) use ($config){
-				new UserGuard(
+				return (new UserGuard(
 					new IchiUserProvider(Auth::createUserProvider($config['provider']) 
-				))->user($request)
-				});
+				)))->user($request)
 			});
-		}
-
-		public function registerMigrations(){
-			return $this->loadMigrationsFrom(__DIR__.'/../database/migrations');
-		}
-
-		public function register(){
-			$this->registerGuard();
-		}	
+		} , $this->app['request'] );
 	}
+
+	public function registerMigrations(){
+		return $this->loadMigrationsFrom(__DIR__.'/../database/migrations');
+	}
+
+	public function register(){
+		$this->registerGuard();
+	}	
+}
