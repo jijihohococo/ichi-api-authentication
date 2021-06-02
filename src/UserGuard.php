@@ -60,7 +60,7 @@ class UserGuard{
      * @param  \Illuminate\Contracts\Auth\Authenticatable  $user
      * @return void
      */
-    public function setUser(Authenticatable $user){
+    // public function setUser(Authenticatable $user){
     	
-    }
+    // }
 }
