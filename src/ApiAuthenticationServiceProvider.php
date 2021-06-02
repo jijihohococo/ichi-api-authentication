@@ -32,7 +32,7 @@ class ApiAuthenticationServiceProvider extends ServiceProvider{
 			return new RequestGuard(function($request) use ($config){
 				return (new UserGuard(
 					new IchiUserProvider(Auth::createUserProvider($config['provider']) 
-				)))->user($request)
+				)))->user($request);
 			},$this->app['request']);
 		});
 	}
