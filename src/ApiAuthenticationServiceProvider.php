@@ -33,8 +33,8 @@ class ApiAuthenticationServiceProvider extends ServiceProvider{
 				return (new UserGuard(
 					new IchiUserProvider(Auth::createUserProvider($config['provider']) 
 				)))->user($request)
-			});
-		} , $this->app['request'] );
+			},$this->app['request']);
+		});
 	}
 
 	public function registerMigrations(){
