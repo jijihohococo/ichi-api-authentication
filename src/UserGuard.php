@@ -1,7 +1,7 @@
 <?php
 
 namespace JiJiHoHoCoCo\IchiApiAuthentication;
-use Illuminate\Contracts\Auth\{Guard,Authenticatable};
+use Illuminate\Contracts\Auth\{Guard,Authenticatable,UserProvider};
 class UserGuard{
 	/**
      * Determine if the current user is authenticated.
@@ -9,7 +9,7 @@ class UserGuard{
      * @return bool
      */
     public $provider;
-    public function __construct($provider){
+    public function __construct(UserProvider $provider){
         $this->provider=$provider;
     }
 
