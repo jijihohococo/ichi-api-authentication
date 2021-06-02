@@ -9,7 +9,7 @@ class UserGuard{
      * @return bool
      */
     public $provider;
-    public function __construct(UserProvider $provider){
+    public function __construct(IchiUserProvider $provider){
         $this->provider=$provider;
     }
 

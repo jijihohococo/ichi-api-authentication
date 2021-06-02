@@ -9,6 +9,7 @@ class AuthenticatedUser implements Authenticatable{
      *
      * @return string
      */
+    public $rememberToken;
     public function getAuthIdentifierName(){
 
     }
@@ -47,7 +48,7 @@ class AuthenticatedUser implements Authenticatable{
      * @return void
      */
     public function setRememberToken($value){
-
+        $this->rememberToken=$value;
     }
 
     /**
