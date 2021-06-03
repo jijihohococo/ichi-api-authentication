@@ -3,6 +3,7 @@
 namespace JiJiHoHoCoCo\IchiApiAuthentication;
 use Illuminate\Contracts\Auth\{Guard,Authenticatable,UserProvider};
 use Illuminate\Http\Request;
+use JiJiHoHoCoCo\IchiApiAuthentication\Models\IchiTokenAuthentication;
 class UserGuard{
 	/**
      * Determine if the current user is authenticated.
@@ -33,9 +34,15 @@ class UserGuard{
      * @return \Illuminate\Contracts\Auth\Authenticatable|null
      */
     public function user(Request $request){
-        if ($request->bearerToken()) {
+        return $this->provider;
+        if ($request->bearerToken() && $ichiToken=$this->checkAuthenticated($request->header('Authorization'))!==null ) {
             
         }
+    }
+
+    private function checkAuthenticated($header){
+        $token=str_replace("Bearer ","",$header);
+        return IchiTokenAuthentication::where('token',$token)->where('revoke',0)->first();
     }
 
     /**
