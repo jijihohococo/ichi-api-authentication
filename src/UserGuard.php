@@ -14,9 +14,9 @@ class UserGuard{
         $this->provider=$provider;
     }
 
-	public function check(){
+    public function check(){
 
-	}
+    }
 
     /**
      * Determine if the current user is a guest.
@@ -33,7 +33,9 @@ class UserGuard{
      * @return \Illuminate\Contracts\Auth\Authenticatable|null
      */
     public function user(Request $request){
-
+        if ($request->bearerToken()) {
+            
+        }
     }
 
     /**
@@ -62,6 +64,6 @@ class UserGuard{
      * @return void
      */
     // public function setUser(Authenticatable $user){
-    	
+
     // }
 }
