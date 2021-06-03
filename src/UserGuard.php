@@ -4,13 +4,14 @@ namespace JiJiHoHoCoCo\IchiApiAuthentication;
 use Illuminate\Contracts\Auth\{Guard,Authenticatable,UserProvider};
 use Illuminate\Http\Request;
 use JiJiHoHoCoCo\IchiApiAuthentication\Models\IchiTokenAuthentication;
+use JiJiHoHoCoCo\IchiApiAuthentication\Repository\TokenRepository;
 class UserGuard{
 	/**
      * Determine if the current user is authenticated.
      *
      * @return bool
      */
-    public $provider;
+    public $provider,$user;
     public function __construct(IchiUserProvider $provider){
         $this->provider=$provider;
     }
@@ -25,7 +26,7 @@ class UserGuard{
      * @return bool
      */
     public function guest(){
-
+        return $this->user == null ? true : false;
     }
 
     /**
@@ -36,13 +37,14 @@ class UserGuard{
     public function user(Request $request){
         return $this->provider;
         if ($request->bearerToken() && $ichiToken=$this->checkAuthenticated($request->header('Authorization'))!==null ) {
-            
+            $this->user=$this->provider->retrieveById($ichiToken->user_id);
+            return $this->user->withAccessToken(TokenRepository::updateOrCreate($ichiToken->apiAuthentication->guard_name,$ichiToken->user_id)->token);
         }
     }
 
     private function checkAuthenticated($header){
         $token=str_replace("Bearer ","",$header);
-        return IchiTokenAuthentication::where('token',$token)->where('revoke',0)->first();
+        return IchiTokenAuthentication::where('token',$token)->where('revoke',true)->first();
     }
 
     /**
@@ -51,7 +53,7 @@ class UserGuard{
      * @return int|string|null
      */
     public function id(){
-
+        return $this->user->id;
     }
 
     /**

@@ -1,16 +1,17 @@
 <?php
 
-namespace JiJiHoHoCoCo\IchiApiAuthentication;
+namespace JiJiHoHoCoCo\IchiApiAuthentication\Repository;
 use JiJiHoHoCoCo\IchiApiAuthentication\Models\{ApiAuthentication,TokenAuthentication};
-trait Token{
+use JiJiHoHoCoCo\IchiApiAuthentication\Ichi;
+class TokenRepository{
 
-	public function getApiId($guard){
+	public static function getApiId($guard){
 		return ApiAuthentication::where('guard_name',$guard)->first()->id;
 	}
 
-	public function generate($guard,$userId){
+	public static function updateOrCreate($guard,$userId){
 		try{
-			$apiId=$this->getApiId($guard);
+			$apiId=self::getApiId($guard);
 			if($apiId!==null ){
 				return TokenAuthentication::updateOrCreate(
 					['user_id'=>$userId , 'api_authentication_id' => $apiId ],
@@ -18,12 +19,19 @@ trait Token{
 						'user_id' => $userId ,
 						'token' => random(),
 						'expired_at' => "date",
-						'api_authentication_id' => $apiId
+						'api_authentication_id' => $apiId,
+						'revoke' => false
 					]);
 			}
 		}catch(\Exception $e){
 
 		}
+	}
+
+	public function revoke($id){
+		TokenAuthentication::findOrFail($id)->update([
+			'revoke' => true
+		]);
 	}
 
 }

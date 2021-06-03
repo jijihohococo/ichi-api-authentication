@@ -16,7 +16,7 @@ class IchiTokenAuthentication extends Model{
 		'api_authentication_id'];
 
 		public function user(){
-			return $this->belongsTo($this->getUserModel($this->api_authentication_id)  , 'user_id')->default();
+			return $this->belongsTo($this->getUserModel($this->api_authentication_id)  , 'user_id')->withDefault();
 		}
 
 		private function getUserModel($apiAuthenticationId){
