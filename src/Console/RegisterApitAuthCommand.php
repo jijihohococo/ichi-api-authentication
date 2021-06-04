@@ -34,7 +34,7 @@ class RegisterApiAuthCommand extends Command{
         $provider = $this->choice(
             'Which user guard should this client use to retrieve users?',
             array_keys($guards->where('driver','ichi')),
-            'users' : null
+            'users'
         );
 
         $client->create($provider);
