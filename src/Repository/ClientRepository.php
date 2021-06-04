@@ -4,9 +4,11 @@ namespace JiJiHoHoCoCo\IchiApiAuthentication\Repository;
 use JiJiHoHoCoCo\IchiApiAuthentication\Models\IchiApiAuthentication;
 class ClientRepository{
 
-	public function create($provider){
-		IchiApiAuthentication::create([
-			
+	public function create($guard,array $selectedGuardArray){
+	return	IchiApiAuthentication::create([
+			'guard_name' => $guard ,
+			'model_name' => config('auth.providers.'. 
+			Arr::get($array , 'user_api.provider' ) .'.model')
 		]);
 	}
 	

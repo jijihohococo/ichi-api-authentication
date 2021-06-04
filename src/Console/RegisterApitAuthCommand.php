@@ -31,14 +31,14 @@ class RegisterApiAuthCommand extends Command{
         
 
         $guards= (array)collect(config('auth.guards'))->where('driver','ichi');
-        $guardFirstArrayKey=array_key_first($guards);
-        $provider = $this->choice(
+        $selectedArray=$guards[ array_key_first($guards) ];
+        $guard = $this->choice(
             'Which user guard should this client use to retrieve users?',
-            array_keys($guards[$guardFirstArrayKey]),
+            array_keys($selectedArray),
             'users'
         );
 
-        $client->create($provider);
+        $client->create($guard,$selectedArray);
 
         $this->info('Password grant client created successfully.');
 
