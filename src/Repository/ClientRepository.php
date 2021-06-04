@@ -8,7 +8,7 @@ class ClientRepository{
 	return	IchiApiAuthentication::create([
 			'guard_name' => $guard ,
 			'model_name' => config('auth.providers.'. 
-			\Arr::get($selectedGuardArray , 'user_api.provider' ) .'.model')
+			\Arr::get($selectedGuardArray , $guard '.provider' ) .'.model')
 		]);
 	}
 	
