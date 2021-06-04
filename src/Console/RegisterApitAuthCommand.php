@@ -11,7 +11,7 @@ class RegisterApiAuthCommand extends Command{
      * @var string
      */
     protected $signature = 'ichi:client
-            {--password : Create a password grant client}';
+    {--password : Create a password grant client}';
 
 	/**
      * The console command description.
@@ -28,7 +28,7 @@ class RegisterApiAuthCommand extends Command{
     }
 
     public function createPasswordClient(ClientRepository $client){
-        
+
 
         $guards= (array)collect(config('auth.guards'))->where('driver','ichi');
         $selectedArray=$guards[ array_key_first($guards) ];
@@ -37,10 +37,13 @@ class RegisterApiAuthCommand extends Command{
             array_keys($selectedArray),
             'users'
         );
+        if($client->checkGuardDuplicate($guard)==0){
+            $client->create($guard,$selectedArray);
 
-        $client->create($guard,$selectedArray);
-
-        $this->info('Password grant client created successfully.');
+            $this->info('Password grant client created successfully.');
+        }else{
+            $this->warning('Duplicate guard');
+        }
 
     }
 
