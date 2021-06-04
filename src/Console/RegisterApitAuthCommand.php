@@ -2,7 +2,7 @@
 
 namespace JiJiHoHoCoCo\IchiApiAuthentication\Console;
 use Illuminate\Console\Command;
-use Repository\ClientRepository;
+use JiJiHoHoCoCo\IchiApiAuthentication\Repository\ClientRepository;
 class RegisterApiAuthCommand extends Command{
 
 	/**
@@ -20,22 +20,25 @@ class RegisterApiAuthCommand extends Command{
      */
     protected $description = 'Create Provider with guard to access api tokens';
 
-    public function handle(){
+    public function handle(ClientRepository $client){
         if($this->options('password')){
-            $this->createPasswordClient();
+            $this->createPasswordClient($client);
         }
 
     }
 
-    public function createPasswordClient(){
-        //$name=$this->ask('Please choose the guards to create');
-        $providers = array_keys(config('auth.providers'));
+    public function createPasswordClient(ClientRepository $client){
+        
 
+        $guards=collect(config('auth.guards'));
         $provider = $this->choice(
-            'Which user provider should this client use to retrieve users?',
-            $providers,
-            in_array('users', $providers) ? 'users' : null
+            'Which user guard should this client use to retrieve users?',
+            $guards->where('driver','ichi'),
+            'users' : null
         );
+
+        $client->create($provider);
+
         $this->info('Password grant client created successfully.');
 
     }
