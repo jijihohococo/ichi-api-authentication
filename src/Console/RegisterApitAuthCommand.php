@@ -30,10 +30,11 @@ class RegisterApiAuthCommand extends Command{
     public function createPasswordClient(ClientRepository $client){
         
 
-        $guards=collect(config('auth.guards'));
+        $guards= (array)collect(config('auth.guards'))->where('driver','ichi');
+        $guardFirstArrayKey=array_key_first($guards);
         $provider = $this->choice(
             'Which user guard should this client use to retrieve users?',
-            array_keys((array)$guards->where('driver','ichi')),
+            array_keys($guards[$guardFirstArrayKey]),
             'users'
         );
 
