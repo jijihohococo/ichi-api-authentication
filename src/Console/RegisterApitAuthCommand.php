@@ -31,7 +31,7 @@ class RegisterApiAuthCommand extends Command{
         //$name=$this->ask('Please choose the guards to create');
         $providers = array_keys(config('auth.providers'));
 
-        $provider = $this->option('provider') ?: $this->choice(
+        $provider = $this->choice(
             'Which user provider should this client use to retrieve users?',
             $providers,
             in_array('users', $providers) ? 'users' : null
