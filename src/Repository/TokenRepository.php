@@ -10,11 +10,17 @@ class TokenRepository{
 		return IchiApiAuthentication::where('guard_name',$guard)->first()->id;
 	}
 
+	public static function getToken($guard,$userId){
+		return IchiTokenAuthentication::select('token')->where('user_id',$userId)
+		->where('api_authentication_id',self::getApiId($guard))
+		->first()->token;
+	}
+
 	public static function updateOrCreate($guard,$userId){
 		
 		$apiId=self::getApiId($guard);
 		$ichi=new Ichi;
-		IchiTokenAuthentication::updateOrCreate(
+		$ichiToken=IchiTokenAuthentication::updateOrCreate(
 			['user_id'=>$userId , 'api_authentication_id' => $apiId ],
 			[
 				'user_id' => $userId ,
@@ -23,6 +29,7 @@ class TokenRepository{
 				'api_authentication_id' => $apiId,
 				'revoke' => false
 			]);
+		return $ichiToken;
 
 	}
 

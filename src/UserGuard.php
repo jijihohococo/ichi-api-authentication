@@ -37,7 +37,7 @@ class UserGuard{
     public function user(Request $request){
         if ($request->bearerToken() && $ichiToken=$this->checkAuthenticated($request->header('Authorization'))!==null ) {
             $this->user=$this->provider->retrieveById($ichiToken->user_id);
-            return $this->user->withAccessToken(TokenRepository::updateOrCreate($ichiToken->apiAuthentication->guard_name,$ichiToken->user_id)->token);
+            return $this->user->withAccessToken(TokenRepository::getToken($guard_name,$ichiToken->user_id));
         }
     }
 
