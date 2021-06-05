@@ -17,7 +17,7 @@ class TokenRepository{
 					['user_id'=>$userId , 'api_authentication_id' => $apiId ],
 					[
 						'user_id' => $userId ,
-						'token' => random(),
+						'token' => rand(),
 						'expired_at' => "date",
 						'api_authentication_id' => $apiId,
 						'revoke' => false
