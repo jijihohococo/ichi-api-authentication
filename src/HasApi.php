@@ -17,6 +17,10 @@ trait HasApi{
 		return $this;
 	}
 
+	public function accessToken(){
+		return $this->accessToken;
+	}
+
 	public function ichiToken(){
 		return TokenRepository::updateOrCreate( $this->getGuard() ,$this->id);
 	}
