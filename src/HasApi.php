@@ -22,6 +22,6 @@ trait HasApi{
 	}
 
 	public function getGuard(){
-		return IchiApiAuthentication::selct('guard_name')->where('model_name', get_class($this) )->first()->guard_name;
+		return IchiApiAuthentication::select('guard_name')->where('model_name', get_class($this) )->first()->guard_name;
 	}
 }
