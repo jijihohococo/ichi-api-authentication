@@ -13,7 +13,7 @@ class TokenRepository{
 	public static function getToken($guard,$userId){
 		return IchiTokenAuthentication::select('token')->where('user_id',$userId)
 		->where('api_authentication_id',self::getApiId($guard))
-		->first()->token;
+		->first();
 	}
 
 	public static function updateOrCreate($guard,$userId){
