@@ -18,8 +18,7 @@ trait HasApi{
 	}
 
 	public function ichiToken(){
-		return $this->checkGuard()==0 ? throw new  Exception("You need to register the guard firstly with command", 1);
-		: TokenRepository::updateOrCreate( $this->getGuard() ,$this->id);
+		return TokenRepository::updateOrCreate( $this->getGuard() ,$this->id);
 	}
 
 	public function checkGuard(){
