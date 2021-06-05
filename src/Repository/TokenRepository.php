@@ -1,19 +1,19 @@
 <?php
 
 namespace JiJiHoHoCoCo\IchiApiAuthentication\Repository;
-use JiJiHoHoCoCo\IchiApiAuthentication\Models\{ApiAuthentication,TokenAuthentication};
+use JiJiHoHoCoCo\IchiApiAuthentication\Models\{IchiApiAuthentication,IchiTokenAuthentication};
 use JiJiHoHoCoCo\IchiApiAuthentication\Ichi;
 class TokenRepository{
 
 	public static function getApiId($guard){
-		return ApiAuthentication::where('guard_name',$guard)->first()->id;
+		return IchiApiAuthentication::where('guard_name',$guard)->first()->id;
 	}
 
 	public static function updateOrCreate($guard,$userId){
 		try{
 			$apiId=self::getApiId($guard);
 			if($apiId!==null ){
-				return TokenAuthentication::updateOrCreate(
+				return IchiTokenAuthentication::updateOrCreate(
 					['user_id'=>$userId , 'api_authentication_id' => $apiId ],
 					[
 						'user_id' => $userId ,
@@ -29,7 +29,7 @@ class TokenRepository{
 	}
 
 	public function revoke($id){
-		TokenAuthentication::findOrFail($id)->update([
+		IchiTokenAuthentication::findOrFail($id)->update([
 			'revoke' => true
 		]);
 	}
