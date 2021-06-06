@@ -28,13 +28,21 @@ class ApiAuthenticationServiceProvider extends ServiceProvider{
 	}
 
 	public function registerGuard(){
-		Auth::extend('ichi', function($app, $name, array $config) {
-			return new RequestGuard(function($request) use ($config){
-				return (new UserGuard(
-					new IchiUserProvider(Auth::createUserProvider($config['provider']) 
-				)))->user($request);
-			},$this->app['request']);
+		Auth::resolved(function ($auth) {
+			$auth->extend('ichi', function($app, $name, array $config) {
+				return tap( $this->registerRequestGuard($config)  ,function($guard){
+					$this->app->refresh('request', $guard, 'setRequest');
+				});
+			});
 		});
+	}
+
+	public function registerRequestGuard($config){
+		return new RequestGuard(function($request) use ($config){
+			return (new UserGuard(
+				new IchiUserProvider(Auth::createUserProvider($config['provider']) 
+			)))->user($request);
+		},$this->app['request']);
 	}
 
 	public function registerMigrations(){
