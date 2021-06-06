@@ -43,7 +43,7 @@ class UserGuard{
 
     private function checkAuthenticated($header){
         $token=str_replace("Bearer ","",$header);
-        return IchiTokenAuthentication::where('token',$token)->where('revoke',true)->first();
+        return IchiTokenAuthentication::where('token',$token)->where('revoke',false )->first();
     }
 
     /**
