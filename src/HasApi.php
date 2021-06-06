@@ -22,7 +22,7 @@ trait HasApi{
 	}
 
 	public function ichiToken(){
-		return TokenRepository::updateOrCreate( $this->getGuard() ,$this->id);
+		return $this->checkGuard() > 0 ? TokenRepository::updateOrCreate( $this->getGuard() ,$this->id) : null ;
 	}
 
 	public function checkGuard(){

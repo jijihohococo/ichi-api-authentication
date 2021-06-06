@@ -42,7 +42,7 @@ class RegisterApiAuthCommand extends Command{
 
             $this->info('Password grant client created successfully.');
         }else{
-            $this->warning('Duplicate guard');
+            $this->error('Duplicate Guard');
         }
 
     }
