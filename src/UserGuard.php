@@ -11,9 +11,10 @@ class UserGuard{
      *
      * @return bool
      */
-    public $provider,$user;
-    public function __construct(IchiUserProvider $provider){
+    public $provider,$user,$guard;
+    public function __construct(IchiUserProvider $provider,$guard){
         $this->provider=$provider;
+        $this->guard=$guard;
     }
 
     public function check(){
@@ -37,7 +38,7 @@ class UserGuard{
     public function user(Request $request){
         if ($request->bearerToken() && ($ichiToken=$this->checkAuthenticated($request->header('Authorization')))!==null ) {
             $this->user=$this->provider->retrieveById($ichiToken->user_id);
-            return $this->user->withAccessToken(TokenRepository::getToken($guard_name,$ichiToken->user_id));
+            return $this->user->withAccessToken(TokenRepository::getToken($this->guard ,$ichiToken->user_id));
         }
     }
 
