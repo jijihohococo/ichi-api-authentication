@@ -38,14 +38,12 @@ class UserGuard{
         if ($request->bearerToken() && $ichiToken=$this->checkAuthenticated($request->header('Authorization'))!==null ) {
             $this->user=$this->provider->retrieveById($ichiToken->user_id);
             return $this->user->withAccessToken(TokenRepository::getToken($guard_name,$ichiToken->user_id));
-        }else{
-            dd("h");
         }
     }
 
     private function checkAuthenticated($header){
         $token=str_replace("Bearer ","",$header);
-        return IchiTokenAuthentication::where('token',$token)->where('revoke',false )->first();
+        return IchiTokenAuthentication::where('token',$token)->where('revoke',0 )->first();
     }
 
     /**
