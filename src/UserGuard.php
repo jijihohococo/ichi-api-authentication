@@ -5,6 +5,7 @@ use Illuminate\Contracts\Auth\{Guard,Authenticatable,UserProvider};
 use Illuminate\Http\Request;
 use JiJiHoHoCoCo\IchiApiAuthentication\Models\{IchiTokenAuthentication,IchiApiAuthentication};
 use JiJiHoHoCoCo\IchiApiAuthentication\Repository\TokenRepository;
+use Carbon\Carbon;
 class UserGuard{
 	/**
      * Determine if the current user is authenticated.
@@ -47,7 +48,7 @@ class UserGuard{
         return IchiTokenAuthentication::where('token',$token)->where('revoke',0 )->where('api_authentication_id',
             IchiApiAuthentication::where('guard_name',$guard)
             ->first()->id
-        ) ->first();
+        )->where('expired_at','>', Carbon::now() )->first();
     }
 
     /**
