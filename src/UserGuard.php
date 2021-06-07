@@ -3,7 +3,7 @@
 namespace JiJiHoHoCoCo\IchiApiAuthentication;
 use Illuminate\Contracts\Auth\{Guard,Authenticatable,UserProvider};
 use Illuminate\Http\Request;
-use JiJiHoHoCoCo\IchiApiAuthentication\Models\IchiTokenAuthentication;
+use JiJiHoHoCoCo\IchiApiAuthentication\Models\{IchiTokenAuthentication,IchiApiAuthentication};
 use JiJiHoHoCoCo\IchiApiAuthentication\Repository\TokenRepository;
 class UserGuard{
 	/**
@@ -36,15 +36,18 @@ class UserGuard{
      * @return \Illuminate\Contracts\Auth\Authenticatable|null
      */
     public function user(Request $request){
-        if ($request->bearerToken() && ($ichiToken=$this->checkAuthenticated($request->header('Authorization')))!==null ) {
+        if ($request->bearerToken() && ($ichiToken=$this->checkAuthenticated($request->header('Authorization') , $this->guard ))!==null ) {
             $this->user=$this->provider->retrieveById($ichiToken->user_id);
             return $this->user->withAccessToken(TokenRepository::getToken($this->guard ,$ichiToken->user_id));
         }
     }
 
-    private function checkAuthenticated($header){
+    private function checkAuthenticated($header,$guard){
         $token=str_replace("Bearer ","",$header);
-        return IchiTokenAuthentication::where('token',$token)->where('revoke',0 )->first();
+        return IchiTokenAuthentication::where('token',$token)->where('revoke',0 )->where('api_authentication_id',
+            IchiApiAuthentication::where('guard_name',$guard)
+            ->first()->id
+        ) ->first();
     }
 
     /**
