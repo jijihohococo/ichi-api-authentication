@@ -52,10 +52,11 @@ class ApiAuthenticationServiceProvider extends ServiceProvider{
 
 	public function register(){
 		$this->registerGuard();
+		$this->registerIchiDataSet();
 	}
 
 	public function registerIchiDataSet(){
-		$this->app->singleton(Ichi::class, function () 
+		$this->app->singleton(Ichi::class, function (){ 
 			$ichi=new Ichi;
 			return $ichi->setExpiredAt(getStandardExpired());
 		});
