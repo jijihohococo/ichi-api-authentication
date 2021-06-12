@@ -16,10 +16,9 @@ class TokenRepository{
 		->first();
 	}
 
-	public static function updateOrCreate($guard,$userId){
+	public static function updateOrCreate($guard,$userId,Ichi $ichi){
 		
 		$apiId=self::getApiId($guard);
-		$ichi=new Ichi;
 		$ichiToken=IchiTokenAuthentication::updateOrCreate(
 			['user_id'=>$userId , 'api_authentication_id' => $apiId ],
 			[
