@@ -2,14 +2,20 @@
 
 namespace JiJiHoHoCoCo\IchiApiAuthentication;
 use JiJiHoHoCoCo\IchiApiAuthentication\Repository\TokenRepository;
-use JiJiHoHoCoCo\IchiApiAuthentication\Models\IchiApiAuthentication;
+use JiJiHoHoCoCo\IchiApiAuthentication\Models\{IchiApiAuthentication,IchiTokenAuthentication};
 trait HasApi{
 
 	public $accessToken;
 
-	public function revoke($tokenId){
+	public function revoke(){
 		$tokenRepository=new TokenRepository;
-		$tokenRepository->revoke($tokenId);
+		$tokenRepository->revoke( 
+			IchiTokenAuthentication::select('id')
+			->where('api_authentication_id', $this->getApiId() )
+			->where('user_id',$this->id)
+			->first()
+			->id
+		 );
 	}
 	
 	public function withAccessToken($accessToken){
@@ -31,5 +37,9 @@ trait HasApi{
 
 	public function getGuard(){
 		return IchiApiAuthentication::select('guard_name')->where('model_name', get_class($this) )->first()->guard_name;
+	}
+
+	public function getApiId(){
+		return IchiApiAuthentication::select('id')->where('model_name',get_class($this))->first()->id;
 	}
 }

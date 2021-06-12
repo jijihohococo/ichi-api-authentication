@@ -42,7 +42,7 @@ class ApiAuthenticationServiceProvider extends ServiceProvider{
 			return (new UserGuard(
 				new IchiUserProvider(Auth::createUserProvider($config['provider'])) ,
 				$guardName
-				   ))->user($request);
+			))->user($request);
 		},$this->app['request']);
 	}
 
@@ -52,5 +52,12 @@ class ApiAuthenticationServiceProvider extends ServiceProvider{
 
 	public function register(){
 		$this->registerGuard();
+	}
+
+	public function registerIchiDataSet(){
+		$this->app->singleton(Ichi::class, function () 
+			$ichi=new Ichi;
+			return $ichi->setExpiredAt(getStandardExpired());
+		});
 	}	
 }

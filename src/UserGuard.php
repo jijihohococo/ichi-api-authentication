@@ -19,7 +19,7 @@ class UserGuard{
     }
 
     public function check(){
-
+        return $this->user == null ? false : true ;
     }
 
     /**
@@ -57,26 +57,6 @@ class UserGuard{
      * @return int|string|null
      */
     public function id(){
-        return $this->user->id;
+        return $this->user !== null ? $this->user->id : null ;
     }
-
-    /**
-     * Validate a user's credentials.
-     *
-     * @param  array  $credentials
-     * @return bool
-     */
-    public function validate(array $credentials = []){
-
-    }
-
-    /**
-     * Set the current user.
-     *
-     * @param  \Illuminate\Contracts\Auth\Authenticatable  $user
-     * @return void
-     */
-    // public function setUser(Authenticatable $user){
-
-    // }
 }
