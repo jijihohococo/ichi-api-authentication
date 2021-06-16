@@ -3,6 +3,7 @@
 namespace JiJiHoHoCoCo\IchiApiAuthentication;
 use JiJiHoHoCoCo\IchiApiAuthentication\Repository\TokenRepository;
 use JiJiHoHoCoCo\IchiApiAuthentication\Models\{IchiApiAuthentication,IchiTokenAuthentication};
+use Illuminate\Container\Container;
 trait HasApi{
 
 	public $accessToken;
@@ -15,7 +16,7 @@ trait HasApi{
 			->where('user_id',$this->id)
 			->first()
 			->id
-		 );
+		);
 	}
 	
 	public function withAccessToken($accessToken){
@@ -28,7 +29,9 @@ trait HasApi{
 	}
 
 	public function ichiToken(){
-		return $this->checkGuard() > 0 ? TokenRepository::updateOrCreate( $this->getGuard() ,$this->id) : null ;
+		return $this->checkGuard() > 0 ? 
+		Container::getInstance()->make(TokenRepository::class)
+		->make($this->getGuard(),$this->id) : null ;
 	}
 
 	public function checkGuard(){

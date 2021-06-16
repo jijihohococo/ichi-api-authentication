@@ -6,6 +6,11 @@ use JiJiHoHoCoCo\IchiApiAuthentication\Ichi;
 use Illuminate\Support\Facades\Hash;
 class TokenRepository{
 
+	public $ichi;
+	public function __construct(Ichi $ichi){
+		$this->ichi=$ichi;
+	}
+
 	public static function getApiId($guard){
 		return IchiApiAuthentication::where('guard_name',$guard)->first()->id;
 	}
@@ -16,16 +21,15 @@ class TokenRepository{
 		->first();
 	}
 
-	public static function updateOrCreate($guard,$userId){
+	public function make($guard,$userId){
 		
 		$apiId=self::getApiId($guard);
-		$ichi=new Ichi;
 		$ichiToken=IchiTokenAuthentication::updateOrCreate(
 			['user_id'=>$userId , 'api_authentication_id' => $apiId ],
 			[
 				'user_id' => $userId ,
 				'token' => Hash::make($guard. $userId . time()) ,
-				'expired_at' => $ichi->getExpiredAt()  ,
+				'expired_at' => $this->ichi->getExpiredAt()  ,
 				'api_authentication_id' => $apiId,
 				'revoke' => false
 			]);
