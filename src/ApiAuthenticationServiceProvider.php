@@ -56,9 +56,10 @@ class ApiAuthenticationServiceProvider extends ServiceProvider{
 	}
 
 	public function registerIchiDataSet(){
-		$this->app->singleton(Ichi::class, function (){ 
-			$ichi=new Ichi;
-			return $ichi->setExpiredAt(getStandardExpired());
+		$this->app->singleton(Ichi::class, function (){
+			return tap(new Ichi , function($ichi){
+				$ichi->setExpiredAt();
+			});
 		});
 	}	
 }
