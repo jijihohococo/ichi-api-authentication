@@ -2,7 +2,7 @@
 
 namespace JiJiHoHoCoCo\IchiApiAuthentication\Repository;
 use JiJiHoHoCoCo\IchiApiAuthentication\Models\{IchiApiAuthentication,IchiTokenAuthentication};
-use JiJiHoHoCoCo\IchiApiAuthentication\Ichi;
+use JiJiHoHoCoCo\IchiApiAuthentication\IchiConfiguration;
 use Illuminate\Support\Facades\Hash;
 class TokenRepository{
 
