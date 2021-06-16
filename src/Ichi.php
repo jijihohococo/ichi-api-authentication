@@ -3,18 +3,13 @@
 namespace JiJiHoHoCoCo\IchiApiAuthentication;
 use DateTimeInterface;
 class Ichi{
-	public $expired_at;
+	public static $expired_at;
 
-	public function setExpiredAt(DateTimeInterface $date=null){
+	public static function setExpiredAt(DateTimeInterface $date=null){
 		if($date==null){
-			$this->expired_at=getStandardExpired();
-			return $this;
+			return getStandardExpired();
 		}
-		$this->expired_at=$date;
-		return $this;
-	}
-
-	public function getExpiredAt(){
-		return $this->expired_at;
+		self::$expired_at=$date;
+		return new static;
 	}
 }

@@ -6,9 +6,9 @@ use JiJiHoHoCoCo\IchiApiAuthentication\Ichi;
 use Illuminate\Support\Facades\Hash;
 class TokenRepository{
 
-	public $ichi;
-	public function __construct(Ichi $ichi){
-		$this->ichi=$ichi;
+	public $ichiConfiguration;
+	public function __construct(IchiConfiguration $ichiConfiguration){
+		$this->ichiConfiguration=$ichiConfiguration;
 	}
 
 	public static function getApiId($guard){
@@ -29,7 +29,7 @@ class TokenRepository{
 			[
 				'user_id' => $userId ,
 				'token' => Hash::make($guard. $userId . time()) ,
-				'expired_at' => $this->ichi->getExpiredAt()  ,
+				'expired_at' => $this->ichiConfiguration->getExpiredAt()  ,
 				'api_authentication_id' => $apiId,
 				'revoke' => false
 			]);
