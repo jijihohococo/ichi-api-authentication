@@ -2,7 +2,8 @@
 
 namespace JiJiHoHoCoCo\IchiApiAuthentication;
 use Carbon\Carbon;
-use DateTimeInterface,DateInterval;
+use DateTimeInterface;
+use DateInterval;
 class Ichi{
 	public static $expired_at;
 
