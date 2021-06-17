@@ -15,10 +15,7 @@
 	"autoload": {
         "psr-4": {
             "JiJiHoHoCoCo\\IchiApiAuthentication\\": "src/"
-        },
-        "files": [
-        	"src/helpers.php"
-        ]
+        }
     },
 	"require-dev": {
 	},
