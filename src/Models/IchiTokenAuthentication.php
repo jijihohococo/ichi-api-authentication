@@ -8,12 +8,12 @@ class IchiTokenAuthentication extends Model{
 
 	use HasFactory;
 
-	protected $fillable = [
-		'user_id',
-		'token',
-		'expired_at',
-		'revoke',
-		'api_authentication_id'];
+	/**
+     * The guarded attributes on the model.
+     *
+     * @var array
+     */
+    protected $guarded = [];
 
 
 		/**
