@@ -8,7 +8,7 @@ class Ichi{
 
 	public static function setExpiredAt(DateTimeInterface $date=null){
 		if($date==null){
-			return	static::$expired_at ! == null ?  Carbon::now()->diff(static::$expired_at ) :  getStandardExpired();
+			return	static::$expired_at !== null ?  Carbon::now()->diff(static::$expired_at ) :  getStandardExpired();
 		}
 		self::$expired_at=$date;
 		return new static;
