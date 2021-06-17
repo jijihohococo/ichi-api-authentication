@@ -19,7 +19,7 @@ class CreateIchiTokenAuthenticationsTable extends Migration{
             $table->id();
             $table->string('user_id');
             $table->string('token');
-            $table->string('expired_at');
+            $table->dateTime('expired_at')->nullable();
             $table->integer('api_authentication_id');
             $table->boolean('revoke');
             $table->timestamps();
