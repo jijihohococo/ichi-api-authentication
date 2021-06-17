@@ -1,10 +1,10 @@
 <?php
 
 namespace JiJiHoHoCoCo\IchiApiAuthentication;
-use DateTimeInterface;
+use DateInterval;
 class IchiConfiguration{
 	public $expiredAt;
-	public function setExpiredAt(DateTimeInterface $date){
+	public function setExpiredAt(DateInterval $date){
 		$this->expiredAt=$date;
 	}
 
