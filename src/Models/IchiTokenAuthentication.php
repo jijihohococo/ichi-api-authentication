@@ -15,20 +15,22 @@ class IchiTokenAuthentication extends Model{
 		'revoke',
 		'api_authentication_id'];
 
+
+		/**
+     * The attributes that should be mutated to dates.
+     *
+     * @var array
+     */
+		protected $dates = [
+			'expired_at',
+		];
+
 		public function user(){
 			return $this->belongsTo($this->getUserModel($this->api_authentication_id)  , 'user_id')->withDefault();
 		}
 
 		private function getUserModel($apiAuthenticationId){
 			return IchiApiAuthentication::findOrFail($apiAuthenticationId)->model_name;
-		}
-
-		public function setExpiredAt($expired_at){
-			$this->expired_at=$expired_at;
-		}
-
-		public function getExpiredAt(){
-			return $this->expired_at;
 		}
 
 		public function apiAuthentication(){
