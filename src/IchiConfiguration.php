@@ -5,7 +5,7 @@ use DateInterval;
 class IchiConfiguration{
 	public $expiredAt;
 	public function setExpiredAt(DateInterval $date){
-		$this->expiredAt=$date;
+		$this->expiredAt=(string)$date;
 	}
 
 	public function getExpiredAt(){
