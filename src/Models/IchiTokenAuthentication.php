@@ -8,6 +8,14 @@ class IchiTokenAuthentication extends Model{
 
 	use HasFactory;
 
+
+	/**
+     * The database table used by the model.
+     *
+     * @var string
+     */
+    protected $table = 'ichi_token_authentications';
+
 	/**
      * The guarded attributes on the model.
      *
