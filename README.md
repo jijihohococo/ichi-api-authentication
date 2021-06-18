@@ -27,6 +27,7 @@ php artisan ichi:client --password
 <p>After choosing the right guard for your user in terminal as you mentioned in your guard array of "config/auth.php", your User Model need to inherit this library functions by the inheritance as shown as below.</p>
 
 ```php
+namespace App\Models;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use JiJiHoHoCoCo\IchiApiAuthentication\HasApi;
 class User extends Authenticatable{
@@ -73,4 +74,37 @@ Route::group(['middleware' => ['auth:user_api']], function() {
 });
 ```
 
+<p>The default expiration time of token is 5 Days. You can customize this expiration time like below in "app/Providers/AuthServiceProvider.php" </p>
+
+<i>Gate has no connection with our library.</i>
+
+```php
+namespace App\Providers;
+
+use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
+use Illuminate\Support\Facades\Gate;
+use JiJiHoHoCoCo\IchiApiAuthentication\Ichi;
+class AuthServiceProvider extends ServiceProvider
+{
+    /**
+     * The policy mappings for the application.
+     *
+     * @var array
+     */
+    protected $policies = [
+        // 'App\Models\Model' => 'App\Policies\ModelPolicy',
+    ];
+
+    /**
+     * Register any authentication / authorization services.
+     *
+     * @return void
+     */
+    public function boot()
+    {
+        $this->registerPolicies();
+        Ichi::setExpiredAt(now()->addDays(2));
+    }
+
+```
 ### Hope you enjoy!
