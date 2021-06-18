@@ -64,6 +64,7 @@ return response()->json([
 ```
 
 <p>You can test the login of your token like below</p>
+<i>You need to make Accept => application/json and Authorization => Bearer {token} in your headers to make login actions.</i>
 
 ```php
 Route::group(['middleware' => ['auth:user_api']], function() {
@@ -72,6 +73,18 @@ Route::group(['middleware' => ['auth:user_api']], function() {
 		dd($user->name);
 	});
 });
+```
+<p>You can revoke the login token as shown as below.</p>
+
+```php
+Route::group(['middleware' => ['auth:user_api']], function() {
+    Route::get('user_logout',function(){
+        $user=\Auth::guard('user_api')->user();
+        $user->revoke();
+        return response()->json([
+            'message' => 'Log out successfully'
+        ]);
+    });
 ```
 
 <p>The default expiration time of token is 5 Days. You can customize this expiration time like below in "app/Providers/AuthServiceProvider.php" </p>
