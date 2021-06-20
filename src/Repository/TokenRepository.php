@@ -37,7 +37,7 @@ class TokenRepository{
 
 	}
 
-	public function revoke($id){
+	public static function revoke($id){
 		IchiTokenAuthentication::findOrFail($id)->update([
 			'revoke' => true
 		]);

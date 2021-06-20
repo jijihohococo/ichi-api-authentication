@@ -8,8 +8,15 @@ trait HasApi{
 
 	public $accessToken;
 
+	public function getAllTokens(){
+		return IchiTokenAuthentication::where('api_authentication_id',
+			$this->getApiId() )
+		->where('user_id',$this->id)
+		->get();
+	}
+
 	public function revoke(){
-		Container::getInstance()->make(TokenRepository::class)->revoke(
+		TokenRepository::revoke(
 			IchiTokenAuthentication::select('id')
 			->where('api_authentication_id', $this->getApiId() )
 			->where('user_id',$this->id)
