@@ -120,4 +120,18 @@ class AuthServiceProvider extends ServiceProvider
     }
 
 ```
+
+<p>You can delete the revoked tokens in command line as shown as below</p>
+
+```php
+php artisan ichi:remove --revoke
+```
+
+<p>You can delete the expired tokens in command line as shown as below</p>
+
+```php
+php artisan ichi:remove --expired
+```
+
+<p>You can </p>
 ### Hope you enjoy!

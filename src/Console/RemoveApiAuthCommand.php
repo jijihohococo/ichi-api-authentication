@@ -32,7 +32,7 @@ class RemoveApiAuthCommand extends Command{
     }
 
     public function removeRevokedTokens(){
-    	IchiTokenAuthentication::where('revoked',1)
+    	IchiTokenAuthentication::where('revoke',1)
     	->delete();
     }
 
