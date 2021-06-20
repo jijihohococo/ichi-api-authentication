@@ -133,5 +133,4 @@ php artisan ichi:remove --revoke
 php artisan ichi:remove --expired
 ```
 
-<p>You can </p>
 ### Hope you enjoy!
