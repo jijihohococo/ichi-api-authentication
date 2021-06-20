@@ -3,7 +3,7 @@
 namespace JiJiHoHoCoCo\IchiApiAuthentication\Console;
 use Illuminate\Console\Command;
 use JiJiHoHoCoCo\IchiApiAuthentication\Repository\ClientRepository;
-class RegisterApiAuthCommand extends Command{
+class ClientApiAuthCommand extends Command{
 
 	/**
      * The name and signature of the console command.

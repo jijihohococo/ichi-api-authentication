@@ -21,7 +21,7 @@ class ApiAuthenticationServiceProvider extends ServiceProvider{
 			], 'ichi-config');
 
 			$this->commands([
-				Console\RegisterApiAuthCommand::class
+				Console\ClientApiAuthCommand::class
 			]);
 		}
 
