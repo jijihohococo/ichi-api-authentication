@@ -34,10 +34,12 @@ class RemoveApiAuthCommand extends Command{
     public function removeRevokedTokens(){
     	IchiTokenAuthentication::where('revoke',1)
     	->delete();
+    	$this->info('Revoked Tokens are deleted successfully.');
     }
 
     public function removeExpiredTokens(){
     	IchiTokenAuthentication::where('expired_at','<=',Carbon::now())
     	->delete();
+    	$this->info('Expired Tokens are deleted successfully.');
     }
 }
