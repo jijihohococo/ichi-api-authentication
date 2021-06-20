@@ -25,8 +25,7 @@ class RemoveApiAuthCommand extends Command{
     public function handle(){
     	if($this->options('revoke')){
     		$this->removeRevokedTokens();
-        }
-        if($this->options('expired')){
+        }elseif($this->options('expired')){
         	$this->removeExpiredTokens();
         }
     }
