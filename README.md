@@ -4,6 +4,25 @@
 
 <p>This library can be used for Laravel Version <=5.6 and PHP Version <=7.0</p>
 
+## Installing Library
+
+<p>Firstly, you need to add some data in your repositories of composer.json as shown as below</p>
+
+```php
+"repositories": [
+        {
+            "name": "jijihohococo/ichi-api-authentication",
+            "type": "vcs",
+            "url": "git@github.com:jijihohococo/ichi-api-authentication.git"
+        }
+    ],
+```
+<p>And then, run below code in command line.</p>
+
+```php
+composer require jijihohococo/ichi-api-authentication
+```
+
 ## Before Using
 <p>You need to have "id" , "email" and "password" columns in your user table to use this library.</p>
 
