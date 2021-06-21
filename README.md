@@ -4,6 +4,9 @@
 
 <p>This library can be used for Laravel Version <=5.6 and PHP Version <=7.0</p>
 
+## Before Using
+<p>You need to have "id" , "email" and "password" columns in your user table to use this library.</p>
+
 ## Using the library
 
 <p>To use the library, firstly we need to assign the guards like below code in "config/auth.php" of your Laravel Project. </p>
