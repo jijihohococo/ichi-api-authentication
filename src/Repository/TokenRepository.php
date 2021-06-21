@@ -21,14 +21,14 @@ class TokenRepository{
 		->first();
 	}
 
-	public function make($guard,$userId){
+	public function make($guard,array $userData ){
 		
 		$apiId=self::getApiId($guard);
 		$ichiToken=IchiTokenAuthentication::updateOrCreate(
-			['user_id'=>$userId , 'api_authentication_id' => $apiId ],
+			['user_id'=>$userData['id'] , 'api_authentication_id' => $apiId ],
 			[
-				'user_id' => $userId ,
-				'token' => Hash::make($guard. $userId . time()) ,
+				'user_id' => $userData['id'] ,
+				'token' => Hash::make($guard. $userData['id'] . $userData['email'] . $userData['password'] .  time()) ,
 				'expired_at' => $this->ichiConfiguration->getExpiredAt()  ,
 				'api_authentication_id' => $apiId,
 				'revoke' => false

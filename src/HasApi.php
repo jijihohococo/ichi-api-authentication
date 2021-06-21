@@ -37,7 +37,11 @@ trait HasApi{
 	public function ichiToken(){
 		return $this->checkGuard() > 0 ? 
 		Container::getInstance()->make(TokenRepository::class)
-		->make($this->getGuard(),$this->id) : null ;
+		->make($this->getGuard(),[
+		'id' =>	$this->id ,
+		'email' =>	$this->email ,
+		'password' =>	$this->password
+		]) : null ;
 	}
 
 	public function checkGuard(){
