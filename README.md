@@ -124,6 +124,12 @@ class AuthServiceProvider extends ServiceProvider
 
 ```
 
+<p>You can select all the tokens of selected User By</p>
+
+```php
+User::findOrFail(1)->getAllTokens();
+```
+
 <p>You can delete the revoked tokens in command line as shown as below</p>
 
 ```php
