@@ -8,6 +8,8 @@ class IchiTokenAuthentication extends Model{
 
 	use HasFactory;
 
+	public $refreshToken , $refreshTokenExpiredTime ;
+
 
 	/**
      * The database table used by the model.
@@ -43,6 +45,14 @@ class IchiTokenAuthentication extends Model{
 
 		public function apiAuthentication(){
 			return $this->belongsTo('Models\IchiApiAuthentication','api_authentication_id')->withDefault();
+		}
+
+		public function setRefreshToken($refreshToken){
+			$this->refreshToken=$refreshToken;
+		}
+
+		public function setRefreshTokenExpiredTime($refreshTokenExpiredTime){
+			$this->refreshTokenExpiredTime=$refreshTokenExpiredTime;
 		}
 
 

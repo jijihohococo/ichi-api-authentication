@@ -4,6 +4,7 @@ namespace JiJiHoHoCoCo\IchiApiAuthentication\Repository;
 use JiJiHoHoCoCo\IchiApiAuthentication\Models\{IchiApiAuthentication,IchiTokenAuthentication};
 use JiJiHoHoCoCo\IchiApiAuthentication\IchiConfiguration;
 use Illuminate\Support\Facades\Hash;
+use JiJiHoHoCoCo\IchiApiAuthentication\Repository\RefreshTokenRepository;
 class TokenRepository{
 
 	public $ichiConfiguration;
@@ -33,8 +34,11 @@ class TokenRepository{
 				'api_authentication_id' => $apiId,
 				'revoke' => false
 			]);
+		$refreshToken=new RefreshTokenRepository();
+		$refreshToken->make($this->ichiConfiguration,$ichiToken->id,$userData);
+		$ichiToken->setRefreshToken($refreshToken->refresh_token);
+		$ichiToken->setRefreshTokenExpiredTime($refreshToken->expired_at);
 		return $ichiToken;
-
 	}
 
 	public static function revoke($id){

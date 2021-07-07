@@ -4,7 +4,11 @@ namespace JiJiHoHoCoCo\IchiApiAuthentication;
 use JiJiHoHoCoCo\IchiApiAuthentication\Repository\TokenRepository;
 use JiJiHoHoCoCo\IchiApiAuthentication\Models\{IchiApiAuthentication,IchiTokenAuthentication};
 use Illuminate\Container\Container;
+use Illuminate\Http\Request;
+use JiJiHoHoCoCo\IchiApiAuthentication\Traits\IchiCheckTokenAuthenticationTrait;
 trait HasApi{
+
+	use IchiCheckTokenAuthenticationTrait;
 
 	public $accessToken;
 
@@ -54,5 +58,13 @@ trait HasApi{
 
 	public function getApiId(){
 		return IchiApiAuthentication::select('id')->where('model_name',get_class($this))->first()->id;
+	}
+
+	public function expired(Request $request){
+		$providers=(array)collect(config('auth.providers'))->where('model', get_class($this) );
+        $selectedProvider=array_keys($providers[array_key_first($providers)])[0];
+        $guards=(array)collect(config('auth.guards'))->where('driver','ichi')->where('provider',$selectedProvider);
+        $selectedGuard=array_keys($guards[array_key_first($guards)])[0];
+        return $this->checkAuthenticated($request->header('Authorization') , $selectedGuard);
 	}
 }

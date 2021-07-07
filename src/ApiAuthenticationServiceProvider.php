@@ -62,6 +62,9 @@ class ApiAuthenticationServiceProvider extends ServiceProvider{
 				$ichiConfiguration->setExpiredAt(
 					Ichi::setExpiredAt()
 				);
+				$ichiConfiguration->setRefreshExpiredAt(
+					Ichi::setRefreshExpiredAt()
+				);
 			});
 		});
 	}	

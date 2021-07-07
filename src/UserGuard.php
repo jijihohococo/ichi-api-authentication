@@ -6,7 +6,10 @@ use Illuminate\Http\Request;
 use JiJiHoHoCoCo\IchiApiAuthentication\Models\{IchiTokenAuthentication,IchiApiAuthentication};
 use JiJiHoHoCoCo\IchiApiAuthentication\Repository\TokenRepository;
 use Carbon\Carbon;
+use JiJiHoHoCoCo\IchiApiAuthentication\Traits\IchiCheckTokenAuthenticationTrait;
 class UserGuard{
+
+    use IchiCheckTokenAuthenticationTrait;
 	/**
      * Determine if the current user is authenticated.
      *
@@ -41,14 +44,6 @@ class UserGuard{
             $this->user=$this->provider->retrieveById($ichiToken->user_id);
             return $this->user->withAccessToken(TokenRepository::getToken($this->guard ,$ichiToken->user_id));
         }
-    }
-
-    private function checkAuthenticated($header,$guard){
-        $token=str_replace("Bearer ","",$header);
-        return IchiTokenAuthentication::where('token',$token)->where('revoke',0 )->where('api_authentication_id',
-            IchiApiAuthentication::where('guard_name',$guard)
-            ->first()->id
-        )->where('expired_at','>', Carbon::now() )->first();
     }
 
     /**
