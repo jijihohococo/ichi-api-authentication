@@ -35,9 +35,9 @@ class TokenRepository{
 				'revoke' => false
 			]);
 		$refreshToken=new RefreshTokenRepository();
-		$refreshToken->make($this->ichiConfiguration,$ichiToken->id,$userData);
-		$ichiToken->setRefreshToken($refreshToken->refresh_token);
-		$ichiToken->setRefreshTokenExpiredTime($refreshToken->expired_at);
+		$newRefreshToken=$refreshToken->make($this->ichiConfiguration,$ichiToken->id,$userData);
+		$ichiToken->setRefreshToken($newRefreshToken->refresh_token);
+		$ichiToken->setRefreshTokenExpiredTime($newRefreshToken->expired_at);
 		return $ichiToken;
 	}
 
