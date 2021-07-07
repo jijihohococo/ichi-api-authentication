@@ -4,6 +4,7 @@ namespace JiJiHoHoCoCo\IchiApiAuthentication\Repository;
 use JiJiHoHoCoCo\IchiApiAuthentication\Models\IchiRefreshTokenAuthentication;
 use JiJiHoHoCoCo\IchiApiAuthentication\IchiConfiguration;
 use Illuminate\Support\Facades\Hash;
+use Carbon\Carbon;
 class RefreshTokenRepository{
 
 	public function make(IchiConfiguration $ichiConfiguration , $tokenId,array $userData){
@@ -13,6 +14,14 @@ class RefreshTokenRepository{
 			'expired_at' => $ichiConfiguration->getRefreshExpiredAt()
 		]);
 		return $refreshToken;
+	}
+
+	public function expired($refreshToken){
+	return	IchiRefreshTokenAuthentication::where('refresh_token',$refreshToken)->where('expired_at','>',Carbon::now())->exists();
+	}
+
+	public static function delete($refreshToken){
+		IchiRefreshTokenAuthentication::where('refresh_token',$refreshToken)->delete();
 	}
 
 }

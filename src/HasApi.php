@@ -1,10 +1,9 @@
 <?php
 
 namespace JiJiHoHoCoCo\IchiApiAuthentication;
-use JiJiHoHoCoCo\IchiApiAuthentication\Repository\TokenRepository;
+use JiJiHoHoCoCo\IchiApiAuthentication\Repository\{TokenRepository,RefreshTokenRepository};
 use JiJiHoHoCoCo\IchiApiAuthentication\Models\{IchiApiAuthentication,IchiTokenAuthentication};
 use Illuminate\Container\Container;
-use Illuminate\Http\Request;
 use JiJiHoHoCoCo\IchiApiAuthentication\Traits\IchiCheckTokenAuthenticationTrait;
 trait HasApi{
 
@@ -38,14 +37,18 @@ trait HasApi{
 		return $this->accessToken;
 	}
 
+	public function getUserAttributes(){
+		return [
+			'id' =>	$this->id ,
+			'email' =>	$this->email ,
+			'password' =>	$this->password
+		];
+	}
+
 	public function ichiToken(){
 		return $this->checkGuard() > 0 ? 
 		Container::getInstance()->make(TokenRepository::class)
-		->make($this->getGuard(),[
-		'id' =>	$this->id ,
-		'email' =>	$this->email ,
-		'password' =>	$this->password
-		]) : null ;
+		->make($this->getGuard(),$this->getUserAttributes()) : null ;
 	}
 
 	public function checkGuard(){
@@ -60,11 +63,19 @@ trait HasApi{
 		return IchiApiAuthentication::select('id')->where('model_name',get_class($this))->first()->id;
 	}
 
-	public function expired(Request $request){
-		$providers=(array)collect(config('auth.providers'))->where('model', get_class($this) );
-        $selectedProvider=array_keys($providers[array_key_first($providers)])[0];
-        $guards=(array)collect(config('auth.guards'))->where('driver','ichi')->where('provider',$selectedProvider);
-        $selectedGuard=array_keys($guards[array_key_first($guards)])[0];
-        return $this->checkAuthenticated($request->header('Authorization') , $selectedGuard);
+	public function expired(){
+		$check=$this->checkAuthenticated(app('request')->header('Authorization') , $this->getGuard() );
+		return $check !== null ? false : true ;
+	}
+
+	public function refreshTokenExpired(){
+		$refreshTokenRepository=new RefreshTokenRepository;
+		return $refreshTokenRepository->expired(app('request')->header('refresh_token'));
+	}
+
+	public function refreshToken(){
+		RefreshTokenRepository::delete(app('request')->header('refresh_token'));
+		return Container::getInstance()->make(TokenRepository::class)->make($this->getGuard(),$this->getUserAttributes());
+
 	}
 }
