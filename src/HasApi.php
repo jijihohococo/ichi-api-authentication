@@ -62,22 +62,30 @@ trait HasApi{
 	}
 
 	public function checkExpired(){
-        $token=getTokenFromHeader(app('request')->header('Authorization'));
-        $apiAuthId=$this->getApiId();
-        return TokenRepository::check($token,$apiAuthId) && TokenRepository::expired($token,$apiAuthId);
-    }
+		$token=getTokenFromHeader(app('request')->header('Authorization'));
+		$apiAuthId=$this->getApiId();
+		return TokenRepository::check($token,$apiAuthId) && TokenRepository::expired($token,$apiAuthId);
+	}
 
-    public function checkRefreshTokenExpired(){
-    	$refreshToken=app('request')->header('Authorization');
-    	return RefreshTokenRepository::check($refreshToken) && RefreshTokenRepository::expired($refreshToken);
-    }
+	public function checkRefreshTokenExpired(){
+		$refreshToken=app('request')->header('refresh_token');
+		return RefreshTokenRepository::check($refreshToken) && RefreshTokenRepository::expired($refreshToken);
+	}
 
-    public function RevokedTokens(){
-    	return TokenRepository::countRevokedTokens($this->id,$this->getApiId());
-    }
+	public function revokedTokens(){
+		return TokenRepository::countRevokedTokens($this->id,$this->getApiId());
+	}
 
 	public function refreshToken(){
-		RefreshTokenRepository::delete(app('request')->header('refresh_token'));
-		return Container::getInstance()->make(TokenRepository::class)->make($this->getGuard(),$this->getUserAttributes());
+		$refreshToken=app('request')->header('refresh_token');
+		if(RefreshTokenRepository::check($refreshToken)){
+			$user=RefreshTokenRepository::getUser($refreshToken);
+			RefreshTokenRepository::delete($refreshToken);
+			return Container::getInstance()->make(TokenRepository::class)->make($this->getGuard(), [
+				'id' =>	$user->id ,
+				'email' =>	$user->email ,
+				'password' =>	$user->password
+			]);
+		}
 	}
 }

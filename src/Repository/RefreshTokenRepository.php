@@ -28,4 +28,9 @@ class RefreshTokenRepository{
 		IchiRefreshTokenAuthentication::where('refresh_token',$refreshToken)->delete();
 	}
 
+	public static function getUser($refreshToken){
+		$refreshTokenObject=IchiRefreshTokenAuthentication::where('refresh_token',$refreshToken)->first();
+		return $refreshTokenObject->token->user;
+	}
+
 }
