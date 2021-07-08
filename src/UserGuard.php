@@ -4,9 +4,8 @@ namespace JiJiHoHoCoCo\IchiApiAuthentication;
 use Illuminate\Contracts\Auth\{Guard,Authenticatable,UserProvider};
 use Illuminate\Http\Request;
 use JiJiHoHoCoCo\IchiApiAuthentication\Models\{IchiTokenAuthentication,IchiApiAuthentication};
-use JiJiHoHoCoCo\IchiApiAuthentication\Repository\{TokenRepository,RefreshTokenRepository};
+use JiJiHoHoCoCo\IchiApiAuthentication\Repository\TokenRepository;
 use Carbon\Carbon;
-use Illuminate\Auth\AuthenticationException;
 class UserGuard{
 	/**
      * Determine if the current user is authenticated.
@@ -42,21 +41,6 @@ class UserGuard{
             $this->user=$this->provider->retrieveById($ichiToken->user_id);
             return $this->user->withAccessToken(TokenRepository::getToken($this->guard ,$ichiToken->user_id));
         }
-
-        if($request->bearerToken() && $this->checkExpired($request->header('Authorization') , $this->guard ) ){
-            throw new AuthenticationException('Token is Expired');
-        }
-
-    
-        $refreshTokenHeader=$request->header('Refresh Token');
-
-        if($refreshTokenHeader!==null && RefreshTokenRepository::check($refreshTokenHeader)==FALSE){
-            throw new AuthenticationException("Refresh Token is Invalid");
-        }
-
-        if($refreshTokenHeader!==null && RefreshTokenRepository::expired($refreshTokenHeader)==FALSE ){
-            throw new AuthenticationException('Refresh Token is Expired');
-        }
     }
 
     private function checkAuthenticated($header,$guard){
@@ -69,14 +53,6 @@ class UserGuard{
     private function getApiAuthIdByGuard($guard){
         return IchiApiAuthentication::where('guard_name',$guard)
         ->first()->id;
-    }
-
-    private function checkExpired($header,$guard){
-        $token=getTokenFromHeader($header);
-        $apiAuthId=$this->getApiAuthIdByGuard($guard);
-        return IchiTokenAuthentication::where('token',$token)
-        ->where('api_authentication_id', $apiAuthId)->count() > 0 && IchiTokenAuthentication::where('token',$token)
-        ->where('api_authentication_id', $apiAuthId )->where('expired_at','<=',Carbon::now())->count()==0;
     }
 
     /**

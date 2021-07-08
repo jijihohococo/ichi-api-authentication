@@ -4,6 +4,7 @@ namespace JiJiHoHoCoCo\IchiApiAuthentication;
 use JiJiHoHoCoCo\IchiApiAuthentication\Repository\{TokenRepository,RefreshTokenRepository};
 use JiJiHoHoCoCo\IchiApiAuthentication\Models\{IchiApiAuthentication,IchiTokenAuthentication};
 use Illuminate\Container\Container;
+use Carbon\Carbon;
 trait HasApi{
 
 	public $accessToken;
@@ -59,6 +60,14 @@ trait HasApi{
 	public function getApiId(){
 		return IchiApiAuthentication::select('id')->where('model_name',get_class($this))->first()->id;
 	}
+
+	public function checkExpired(){
+        $token=getTokenFromHeader(app('request')->header('Authorization'));
+        $apiAuthId=$this->getApiId();
+        return IchiTokenAuthentication::where('token',$token)
+        ->where('api_authentication_id', $apiAuthId)->count() > 0 && IchiTokenAuthentication::where('token',$token)
+        ->where('api_authentication_id', $apiAuthId )->where('expired_at','>',Carbon::now())->count()==0;
+    }
 
 	public function refreshToken(){
 		RefreshTokenRepository::delete(app('request')->header('refresh_token'));
