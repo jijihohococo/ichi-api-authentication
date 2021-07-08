@@ -52,6 +52,11 @@ class TokenRepository{
         ->where('api_authentication_id', $apiAuthId )->where('expired_at','>',Carbon::now())->exists();
 	}
 
+	public static function countRevokedTokens($userId , $apiAuthId){
+		return IchiTokenAuthentication::where('user_id',$userId)
+		->where('api_authentication_id',$apiAuthId)->where('revoke',false)->count();
+	}
+
 	public static function revoke($id){
 		IchiTokenAuthentication::findOrFail($id)->update([
 			'revoke' => true

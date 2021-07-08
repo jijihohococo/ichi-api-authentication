@@ -72,6 +72,10 @@ trait HasApi{
     	return RefreshTokenRepository::check($refreshToken) && RefreshTokenRepository::expired($refreshToken);
     }
 
+    public function RevokedTokens(){
+    	return TokenRepository::countRevokedTokens($this->id,$this->getApiId());
+    }
+
 	public function refreshToken(){
 		RefreshTokenRepository::delete(app('request')->header('refresh_token'));
 		return Container::getInstance()->make(TokenRepository::class)->make($this->getGuard(),$this->getUserAttributes());
