@@ -81,7 +81,9 @@ $token=$user->ichiToken();
 return response()->json([
 	'name' => $user->name ,
 	'token' => $token->token ,
-	'expired_at' => $token->expired_at
+	'expired_at' => $token->expired_at ,
+    'refresh_token' => $token->refreshToken ,
+    'refreshTokenExpiredTime' => $token->refreshTokenExpiredTime
 ]);
 ```
 
@@ -160,5 +162,25 @@ php artisan ichi:remove --revoke
 ```php
 php artisan ichi:remove --expired
 ```
+
+## Refresh Token
+
+<p>You can refresh token outside of authentication route like that with the headers Accept => application/json and refresh_token => {refreshToken}</p>
+
+```php
+Route::get('refresh_user_token',function(){
+    $user=new User;
+    $refreshToken=$user->refreshToken();
+    return response()->json([
+        'name' => $refreshToken->user->name ,
+        'token' => $refreshToken->token ,
+        'expired_at' => $refreshToken->expired_at ,
+        'refresh_token' => $refreshToken->refreshToken ,
+        'refreshTokenExpiredTime' => $refreshToken->refreshTokenExpiredTime
+     ]);
+});
+```
+
+
 
 ### Hope you enjoy!
