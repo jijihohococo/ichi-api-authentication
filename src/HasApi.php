@@ -75,6 +75,5 @@ trait HasApi{
 	public function refreshToken(){
 		RefreshTokenRepository::delete(app('request')->header('refresh_token'));
 		return Container::getInstance()->make(TokenRepository::class)->make($this->getGuard(),$this->getUserAttributes());
-
 	}
 }
