@@ -33,6 +33,6 @@ class IchiRefreshTokenAuthentication extends Model{
 		];
 
 		public function token(){
-			return $this->belongsTo('Models\IchiTokenAuthentication','token_id')->withDefault();
+			return $this->belongsTo('JiJiHoHoCoCo\IchiApiAuthentication\Models\IchiTokenAuthentication','token_id')->withDefault();
 		}
 	}

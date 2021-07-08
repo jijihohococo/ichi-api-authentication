@@ -44,7 +44,7 @@ class IchiTokenAuthentication extends Model{
 		}
 
 		public function apiAuthentication(){
-			return $this->belongsTo('Models\IchiApiAuthentication','api_authentication_id')->withDefault();
+			return $this->belongsTo('JiJiHoHoCoCo\IchiApiAuthentication\Models\IchiApiAuthentication','api_authentication_id')->withDefault();
 		}
 
 		public function setRefreshToken($refreshToken){
