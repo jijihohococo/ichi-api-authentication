@@ -4,10 +4,7 @@ namespace JiJiHoHoCoCo\IchiApiAuthentication;
 use JiJiHoHoCoCo\IchiApiAuthentication\Repository\{TokenRepository,RefreshTokenRepository};
 use JiJiHoHoCoCo\IchiApiAuthentication\Models\{IchiApiAuthentication,IchiTokenAuthentication};
 use Illuminate\Container\Container;
-use JiJiHoHoCoCo\IchiApiAuthentication\Traits\IchiCheckTokenAuthenticationTrait;
 trait HasApi{
-
-	use IchiCheckTokenAuthenticationTrait;
 
 	public $accessToken;
 
@@ -61,16 +58,6 @@ trait HasApi{
 
 	public function getApiId(){
 		return IchiApiAuthentication::select('id')->where('model_name',get_class($this))->first()->id;
-	}
-
-	public function expired(){
-		$check=$this->checkAuthenticated(app('request')->header('Authorization') , $this->getGuard() );
-		return $check !== null ? false : true ;
-	}
-
-	public function refreshTokenExpired(){
-		$refreshTokenRepository=new RefreshTokenRepository;
-		return $refreshTokenRepository->expired(app('request')->header('refresh_token'));
 	}
 
 	public function refreshToken(){

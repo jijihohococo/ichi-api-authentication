@@ -16,8 +16,12 @@ class RefreshTokenRepository{
 		return $refreshToken;
 	}
 
-	public function expired($refreshToken){
+	public static function expired($refreshToken){
 	return	IchiRefreshTokenAuthentication::where('refresh_token',$refreshToken)->where('expired_at','>',Carbon::now())->exists();
+	}
+
+	public static function check($refreshToken){
+		return IchiRefreshTokenAuthentication::where('refresh_token',$refreshToken)->exists();
 	}
 
 	public static function delete($refreshToken){
