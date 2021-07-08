@@ -5,6 +5,7 @@ use JiJiHoHoCoCo\IchiApiAuthentication\Models\{IchiApiAuthentication,IchiTokenAu
 use JiJiHoHoCoCo\IchiApiAuthentication\IchiConfiguration;
 use Illuminate\Support\Facades\Hash;
 use JiJiHoHoCoCo\IchiApiAuthentication\Repository\RefreshTokenRepository;
+use Carbon\Carbon;
 class TokenRepository{
 
 	public $ichiConfiguration;
@@ -39,6 +40,16 @@ class TokenRepository{
 		$ichiToken->setRefreshToken($newRefreshToken->refresh_token);
 		$ichiToken->setRefreshTokenExpiredTime($newRefreshToken->expired_at);
 		return $ichiToken;
+	}
+
+	public static function check($token,$apiAuthId){
+		return IchiTokenAuthentication::where('token',$token)
+        ->where('api_authentication_id', $apiAuthId)->exists();
+	}
+
+	public static function expired($token,$apiAuthId){
+		return IchiTokenAuthentication::where('token',$token)
+        ->where('api_authentication_id', $apiAuthId )->where('expired_at','>',Carbon::now())->exists();
 	}
 
 	public static function revoke($id){

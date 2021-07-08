@@ -64,9 +64,12 @@ trait HasApi{
 	public function checkExpired(){
         $token=getTokenFromHeader(app('request')->header('Authorization'));
         $apiAuthId=$this->getApiId();
-        return IchiTokenAuthentication::where('token',$token)
-        ->where('api_authentication_id', $apiAuthId)->count() > 0 && IchiTokenAuthentication::where('token',$token)
-        ->where('api_authentication_id', $apiAuthId )->where('expired_at','>',Carbon::now())->count()==0;
+        return TokenRepository::check($token,$apiAuthId) && TokenRepository::expired($token,$apiAuthId);
+    }
+
+    public function checkRefreshTokenExpired(){
+    	$refreshToken=app('request')->header('Authorization');
+    	return RefreshTokenRepository::check($refreshToken) && RefreshTokenRepository::expired($refreshToken);
     }
 
 	public function refreshToken(){
