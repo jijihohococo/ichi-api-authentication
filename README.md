@@ -165,7 +165,7 @@ php artisan ichi:remove --expired
 
 ## Refresh Token
 
-<p>You can refresh token outside of authentication route like that with the headers Accept => application/json and refresh_token => {refreshToken}</p>
+<p>You can refresh token outside of authentication route like that with the headers Accept => application/json and refresh_token => Bearer {refreshToken}</p>
 
 ```php
 Route::get('refresh_user_token',function(){
@@ -180,7 +180,7 @@ Route::get('refresh_user_token',function(){
      ]);
 });
 ```
-
+<i>The result of refresh token will be null if the refresh token is not exist or refresh token is expired</i>
 
 
 ### Hope you enjoy!
