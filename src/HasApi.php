@@ -49,7 +49,7 @@ trait HasApi{
 		->make($this->getGuard(),$this->getUserAttributes()) : null ;
 	}
 
-	public function checkGuard(){
+	private function checkGuard(){
 		return IchiApiAuthentication::where('model_name',get_class($this))->count();
 	}
 
@@ -61,12 +61,7 @@ trait HasApi{
 		return IchiApiAuthentication::select('id')->where('model_name',get_class($this))->first()->id;
 	}
 
-	public function checkExpired(){
-		$token=getTokenFromHeader(app('request')->header('Authorization'));
-		$apiAuthId=$this->getApiId();
-		return TokenRepository::check($token,$apiAuthId) && TokenRepository::expired($token,$apiAuthId);
-	}
-
+	
 	private function checkRefreshTokenExpired($refreshToken){
 		return RefreshTokenRepository::check($refreshToken) && RefreshTokenRepository::expired($refreshToken);
 	}
