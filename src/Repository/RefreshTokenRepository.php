@@ -28,16 +28,16 @@ class RefreshTokenRepository{
 		IchiRefreshTokenAuthentication::where('refresh_token',$refreshToken)->delete();
 	}
 
-	private function getRefreshToken($refreshToken){
+	private static function getRefreshToken($refreshToken){
 		return IchiRefreshTokenAuthentication::where('refresh_token',$refreshToken)->first();
 	}
 
 	public static function getUser($refreshToken){
-		return $this->getRefreshToken($refreshToken)->token->user;
+		return self::getRefreshToken($refreshToken)->token->user;
 	}
 
 	public static function checkParentTokenRevoke($refreshToken){
-		return $this->getRefreshToken($refreshToken)->token->revoke == false ;
+		return self::getRefreshToken($refreshToken)->token->revoke == false ;
 	}
 
 }
