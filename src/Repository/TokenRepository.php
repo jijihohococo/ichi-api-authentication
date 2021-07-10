@@ -63,11 +63,4 @@ class TokenRepository{
 		]);
 	}
 
-	public static function revokeExceptOfToken($token,$userId,$apiId){
-		IchiTokenAuthentication::where('token','!=',$token)->where('user_id',$userId)->where('api_authentication_id',$apiId)->update([
-			'revoke' => true
-		]);
-
-	}
-
 }

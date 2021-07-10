@@ -83,11 +83,4 @@ trait HasApi{
 			}
 		}
 	}
-
-	public function revokeOtherTokens(){
-		return app('request')->bearerToken() && $this->checkGuard() > 0 ? TokenRepository::revokeExceptOfToken(getTokenFromHeader(app('request')->header('Authorization')) ,
-			$this->id ,
-			$this->getApiId()
-		 ) : null ;
-	}
 }
