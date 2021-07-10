@@ -180,7 +180,7 @@ Route::get('refresh_user_token',function(){
      ]);
 });
 ```
-<i>The result of refresh token will be null if the refresh token is not exist or refresh token is expired</i>
+<i>The result of refresh token will be null if the refresh token is not exist or refresh token is expired or the parent token of header refresh token is revoked (true)</i>
 
 
 ### Hope you enjoy!
