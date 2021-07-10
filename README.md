@@ -183,4 +183,39 @@ Route::get('refresh_user_token',function(){
 <i>The result of refresh token will be null if the refresh token is not exist or refresh token is expired or the parent token of header refresh token is revoked (true)</i>
 
 
+<p>The default expiration time of refresh token is 5 Days. You can customize this expiration time like below in "app/Providers/AuthServiceProvider.php" </p>
+
+<i>Gate has no connection with our library.</i>
+
+```php
+namespace App\Providers;
+
+use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
+use Illuminate\Support\Facades\Gate;
+use JiJiHoHoCoCo\IchiApiAuthentication\Ichi;
+class AuthServiceProvider extends ServiceProvider
+{
+    /**
+     * The policy mappings for the application.
+     *
+     * @var array
+     */
+    protected $policies = [
+        // 'App\Models\Model' => 'App\Policies\ModelPolicy',
+    ];
+
+    /**
+     * Register any authentication / authorization services.
+     *
+     * @return void
+     */
+    public function boot()
+    {
+        $this->registerPolicies();
+        Ichi::setRefreshExpiredAt(now()->addDays(2));
+    }
+
+```
+
+
 ### Hope you enjoy!
