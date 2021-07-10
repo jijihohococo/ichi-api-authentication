@@ -2,8 +2,6 @@
 	"name": "jijihohococo/ichi-api-authentication",
 	"description": "API Authentication for laravel",
 	"keywords": ["api","authentication","laravel"],
-	"homepage": "https://github.com/jijihohococo/ichi-api-authentication",
-	"type": "library",
 	"license": "MIT",
 	"authors": [
 		{
