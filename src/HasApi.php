@@ -73,7 +73,7 @@ trait HasApi{
 	public function refreshToken(){
 		if(checkBearer($refreshToken=app('request')->header('refresh_token'))){
 			$refreshToken=getTokenFromHeader($refreshToken);
-			if( $this->checkRefreshTokenExpired($refreshToken) ){
+			if( $this->checkRefreshTokenExpired($refreshToken) && RefreshTokenRepository::checkParentTokenRevoke($refreshToken) ){
 				$user=RefreshTokenRepository::getUser($refreshToken);
 				RefreshTokenRepository::delete($refreshToken);
 				$this->id=$user->id;
