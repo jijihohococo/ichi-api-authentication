@@ -53,11 +53,11 @@ trait HasApi{
 		return IchiApiAuthentication::where('model_name',get_class($this))->count();
 	}
 
-	public function getGuard(){
+	private function getGuard(){
 		return IchiApiAuthentication::select('guard_name')->where('model_name', get_class($this) )->first()->guard_name;
 	}
 
-	public function getApiId(){
+	private function getApiId(){
 		return IchiApiAuthentication::select('id')->where('model_name',get_class($this))->first()->id;
 	}
 
