@@ -2,7 +2,11 @@
 
 <p>Since I had difficulties in using Laravel Passport due to the conflicts of PHP Version and League Oauth2 Library. I had the idea of developing my own API Authentication driver. This API Authentication library is developed without Oauth2. It is also my first time library development. The usage and library structure is really same as Laravel Passport's structure. It is aimed to use multiple API Authentication Guards in Laravel API Developments without facing difficulties that I had mentioned above. That development had took one week.</p>
 
-<p>This library can be used for Laravel Version <=5.6 and PHP Version <=7.0</p>
+<p>This library can be used for Laravel Version 5.6 to 8 with PHP Version 7.0 to above</p>
+
+## License
+
+This package is Open Source According to [MIT license](LICENSE.md)
 
 ## Installing Library
 
