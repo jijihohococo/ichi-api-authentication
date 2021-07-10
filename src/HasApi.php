@@ -82,9 +82,8 @@ trait HasApi{
 	}
 
 	public function logOutOtherTokens(){
-		$token=app('request')->header('Authorization');
 		$apiId=$this->getApiId();
-		if(app('request')->bearerToken() && TokenRepository::check($newToken=getTokenFromHeader($token) , $apiId ) ){
+		if(app('request')->bearerToken() && TokenRepository::check($newToken=getTokenFromHeader(app('request')->header('Authorization')) , $apiId ) ){
 			TokenRepository::revokeOtherTokens($newToken,$this->id,$apiId);
 		}
 	}
