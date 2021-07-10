@@ -23,11 +23,17 @@ class TokenRepository{
 		->first();
 	}
 
+	public static function getTokens($apiId,$userId){
+		return IchiTokenAuthentication::where('api_authentication_id',
+			$apiId )
+		->where('user_id',$userId )
+		->get();
+	}
+
 	public function make($guard,array $userData ){
 		
 		$apiId=self::getApiId($guard);
-		$ichiToken=IchiTokenAuthentication::updateOrCreate(
-			['user_id'=>$userData['id'] , 'api_authentication_id' => $apiId ],
+		$ichiToken=IchiTokenAuthentication::create(
 			[
 				'user_id' => $userData['id'] ,
 				'token' => Hash::make($guard. $userData['id'] . $userData['email'] . $userData['password'] .  time()) ,
@@ -44,12 +50,7 @@ class TokenRepository{
 
 	public static function check($token,$apiAuthId){
 		return IchiTokenAuthentication::where('token',$token)
-        ->where('api_authentication_id', $apiAuthId)->exists();
-	}
-
-	public static function expired($token,$apiAuthId){
-		return IchiTokenAuthentication::where('token',$token)
-        ->where('api_authentication_id', $apiAuthId )->where('expired_at','>',Carbon::now())->exists();
+		->where('api_authentication_id', $apiAuthId)->exists();
 	}
 
 	public static function countRevokedTokens($userId , $apiAuthId){
@@ -61,6 +62,15 @@ class TokenRepository{
 		IchiTokenAuthentication::findOrFail($id)->update([
 			'revoke' => true
 		]);
+	}
+
+	public static function revokeOtherTokens($token,$userId,$apiId){
+		$removedTokens=IchiTokenAuthentication::select('id')->where('token','!=',$token)
+			->where('user_id',$userId)->where('api_authentication_id',$apiId)->get()->toArray();
+		IchiTokenAuthentication::wherein('id',$removedTokens)->update([
+			'revoke' => true
+		]);
+		RefreshTokenRepository::revokeByTokens($removedTokens);
 	}
 
 }

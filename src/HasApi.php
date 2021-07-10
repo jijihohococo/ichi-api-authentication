@@ -2,28 +2,24 @@
 
 namespace JiJiHoHoCoCo\IchiApiAuthentication;
 use JiJiHoHoCoCo\IchiApiAuthentication\Repository\{TokenRepository,RefreshTokenRepository};
-use JiJiHoHoCoCo\IchiApiAuthentication\Models\{IchiApiAuthentication,IchiTokenAuthentication};
+use JiJiHoHoCoCo\IchiApiAuthentication\Models\{IchiApiAuthentication,IchiTokenAuthentication,IchiRefreshTokenAuthentication};
 use Illuminate\Container\Container;
-use Carbon\Carbon;
 trait HasApi{
 
 	public $accessToken;
 
 	public function getAllTokens(){
-		return IchiTokenAuthentication::where('api_authentication_id',
-			$this->getApiId() )
-		->where('user_id',$this->id)
-		->get();
+		return TokenRepository::getTokens($this->getApiId(),$this->id);
 	}
 
 	public function revoke(){
-		TokenRepository::revoke(
-			IchiTokenAuthentication::select('id')
-			->where('api_authentication_id', $this->getApiId() )
-			->where('user_id',$this->id)
-			->first()
-			->id
-		);
+		$tokenId=IchiTokenAuthentication::select('id')
+		->where('api_authentication_id', $this->getApiId() )
+		->where('user_id',$this->id)
+		->first()
+		->id;
+		TokenRepository::revoke($tokenId);
+		RefreshTokenRepository::revokeByParentToken($tokenId);
 	}
 	
 	public function withAccessToken($accessToken){
@@ -63,7 +59,8 @@ trait HasApi{
 
 	
 	private function checkRefreshTokenExpired($refreshToken){
-		return RefreshTokenRepository::check($refreshToken) && RefreshTokenRepository::expired($refreshToken);
+		return RefreshTokenRepository::check($refreshToken) && RefreshTokenRepository::expired($refreshToken) && 
+		RefreshTokenRepository::checkParentTokenRevoke($refreshToken);
 	}
 
 	public function revokedTokens(){
@@ -73,14 +70,22 @@ trait HasApi{
 	public function refreshToken(){
 		if(checkBearer($refreshToken=app('request')->header('refresh_token'))){
 			$refreshToken=getTokenFromHeader($refreshToken);
-			if( $this->checkRefreshTokenExpired($refreshToken) && RefreshTokenRepository::checkParentTokenRevoke($refreshToken) ){
+			if( $this->checkRefreshTokenExpired($refreshToken) ){
 				$user=RefreshTokenRepository::getUser($refreshToken);
-				RefreshTokenRepository::delete($refreshToken);
+				RefreshTokenRepository::revokeByRefreshToken($refreshToken);
 				$this->id=$user->id;
 				$this->email=$user->email;
 				$this->password=$user->password;
 				return $this->ichiToken();
 			}
+		}
+	}
+
+	public function logOutOtherTokens(){
+		$token=app('request')->header('Authorization');
+		$apiId=$this->getApiId();
+		if(app('request')->bearerToken() && TokenRepository::check($newToken=getTokenFromHeader($token) , $apiId ) ){
+			TokenRepository::revokeOtherTokens($newToken,$this->id,$apiId);
 		}
 	}
 }

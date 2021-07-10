@@ -3,10 +3,10 @@
 namespace JiJiHoHoCoCo\IchiApiAuthentication\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-
+use JiJiHoHoCoCo\IchiTokenAuthentication\Traits\TokenTrait;
 class IchiRefreshTokenAuthentication extends Model{
 	
-	use HasFactory;
+	use HasFactory,TokenTrait;
 
 	/**
      * The database table used by the model.

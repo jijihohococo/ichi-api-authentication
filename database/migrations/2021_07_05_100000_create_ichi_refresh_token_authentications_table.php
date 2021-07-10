@@ -19,6 +19,7 @@ class CreateIchiRefreshTokenAuthenticationsTable extends Migration{
             $table->id();
             $table->text('refresh_token');
             $table->string('token_id');
+            $table->boolean('revoke');
             $table->dateTime('expired_at')->nullable();
             $table->timestamps();
         });
