@@ -39,15 +39,12 @@ class UserGuard{
     public function user(Request $request){
         if ($request->bearerToken() && ($ichiToken=$this->checkAuthenticated($request->header('Authorization') , $this->guard ))!==null ) {
             $this->user=$this->provider->retrieveById($ichiToken->user_id);
-            return $this->user->withAccessToken(TokenRepository::getToken( TokenRepository::getApiId($this->guard) ,$ichiToken->user_id , 'token' ));
+            return $this->user->withAccessToken($ichiToken);
         }
     }
 
     private function checkAuthenticated($header,$guard){
-        $token=getTokenFromHeader($header);
-        return IchiTokenAuthentication::where('token',$token)->where('revoke',false )->where('api_authentication_id',
-            $this->getApiAuthIdByGuard($guard)
-        )->whereNonExpiredTokens()->first();
+        return TokenRepository::getToken($this->getApiAuthIdByGuard($guard),getTokenFromHeader($header));
     }
 
     private function getApiAuthIdByGuard($guard){

@@ -13,9 +13,11 @@ trait HasApi{
 	}
 
 	public function revoke(){
-		$tokenId=TokenRepository::getToken($this->getApiId(),$this->id,'id')->id;
-		TokenRepository::revoke($tokenId);
-		RefreshTokenRepository::revokeByParentToken($tokenId);
+		if(app('request')->bearerToken()){
+			$tokenId=$this->accessToken()->getTokenId();
+			TokenRepository::revoke($tokenId);
+			RefreshTokenRepository::revokeByParentToken($tokenId);
+		}
 	}
 	
 	public function withAccessToken($accessToken){

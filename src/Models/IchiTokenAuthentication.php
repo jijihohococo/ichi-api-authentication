@@ -55,5 +55,13 @@ class IchiTokenAuthentication extends Model{
 			$this->refreshTokenExpiredTime=$refreshTokenExpiredTime;
 		}
 
+		public function getToken(){
+			return $this->token;
+		}
+
+		public function getTokenId(){
+			return $this->id;
+		}
+
 
 	}

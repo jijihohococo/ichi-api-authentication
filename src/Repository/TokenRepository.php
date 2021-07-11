@@ -17,9 +17,11 @@ class TokenRepository{
 		return IchiApiAuthentication::where('guard_name',$guard)->first()->id;
 	}
 
-	public static function getToken($apiId,$userId,$select){
-		return IchiTokenAuthentication::select($select)->where('user_id',$userId)
-		->where('api_authentication_id',$apiId )
+	public static function getToken($apiId,$token){
+		return IchiTokenAuthentication::where('api_authentication_id',$apiId)
+		->where('token',$token)
+		->where('revoke',false)
+		->whereNonExpiredTokens()
 		->first();
 	}
 
