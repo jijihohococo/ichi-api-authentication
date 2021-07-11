@@ -4,6 +4,7 @@ namespace JiJiHoHoCoCo\IchiApiAuthentication;
 use JiJiHoHoCoCo\IchiApiAuthentication\Repository\{TokenRepository,RefreshTokenRepository};
 use JiJiHoHoCoCo\IchiApiAuthentication\Models\{IchiApiAuthentication,IchiTokenAuthentication,IchiRefreshTokenAuthentication};
 use Illuminate\Container\Container;
+use JiJiHoHoCoCo\IchiApiAuthentication\Exceptions\{TokenException,RefreshTokenException,IchiException};
 trait HasApi{
 
 	public $accessToken;
@@ -18,6 +19,7 @@ trait HasApi{
 			TokenRepository::revoke($tokenId);
 			RefreshTokenRepository::revokeByParentToken($tokenId);
 		}
+		throw TokenException::invalidToken();
 	}
 	
 	public function withAccessToken($accessToken){
@@ -38,9 +40,11 @@ trait HasApi{
 	}
 
 	public function ichiToken(){
-		return $this->checkGuard() ? 
-		Container::getInstance()->make(TokenRepository::class)
-		->make($this->getGuard(),$this->getUserAttributes()) : null ;
+		if($this->checkGuard()){
+			return Container::getInstance()->make(TokenRepository::class)
+			->make($this->getGuard(),$this->getUserAttributes());
+		}
+		throw IchiException::invalid();
 	}
 
 	private function checkGuard(){
@@ -76,13 +80,15 @@ trait HasApi{
 				$this->password=$user->password;
 				return $this->ichiToken();
 			}
+			throw RefreshTokenException::invalidToken();
 		}
+		throw TokenException::invalidToken();
 	}
 
 	public function logOutOtherTokens(){
-		$apiId=$this->getApiId();
-		if(app('request')->bearerToken() && TokenRepository::check($newToken=getTokenFromHeader(app('request')->header('Authorization')) , $apiId ) ){
+		if(app('request')->bearerToken() && TokenRepository::check($newToken=getTokenFromHeader(app('request')->header('Authorization')) , $apiId=$this->getApiId() ) ){
 			TokenRepository::revokeOtherTokens($newToken,$this->id,$apiId);
 		}
+		throw TokenException::invalidToken();
 	}
 }
