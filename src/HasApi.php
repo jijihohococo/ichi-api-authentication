@@ -13,7 +13,7 @@ trait HasApi{
 	}
 
 	public function revoke(){
-		if(app('request')->bearerToken()){
+		if(app('request')->bearerToken() && TokenRepository::check( getTokenFromHeader(app('request')->header('Authorization')) , $this->getApiId() ) ){
 			$tokenId=$this->accessToken()->getTokenId();
 			TokenRepository::revoke($tokenId);
 			RefreshTokenRepository::revokeByParentToken($tokenId);
