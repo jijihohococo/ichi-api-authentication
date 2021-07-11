@@ -40,13 +40,13 @@ trait HasApi{
 	}
 
 	public function ichiToken(){
-		return $this->checkGuard() > 0 ? 
+		return $this->checkGuard() ? 
 		Container::getInstance()->make(TokenRepository::class)
 		->make($this->getGuard(),$this->getUserAttributes()) : null ;
 	}
 
 	private function checkGuard(){
-		return IchiApiAuthentication::where('model_name',get_class($this))->count();
+		return IchiApiAuthentication::where('model_name',get_class($this))->exists();
 	}
 
 	private function getGuard(){
