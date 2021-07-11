@@ -3,7 +3,7 @@
 namespace JiJiHoHoCoCo\IchiApiAuthentication\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use JiJiHoHoCoCo\IchiTokenAuthentication\Traits\TokenTrait;
+use JiJiHoHoCoCo\IchiApiAuthentication\Traits\TokenTrait;
 class IchiTokenAuthentication extends Model{
 
 	use HasFactory,TokenTrait;
