@@ -9,7 +9,7 @@ class Ichi{
 
 	public static function setExpiredAt(DateTimeInterface $date=null){
 		if($date==null){
-			return	static::$expired_at !== null ?  Carbon::now()->diff(static::$expired_at ) :  new DateInterval('P5D');
+			return	static::$expired_at !== null ?  Carbon::now()->diff(static::$expired_at ) :  new DateInterval('P1Y');
 		}
 		self::$expired_at=$date;
 		return new static;
@@ -17,7 +17,7 @@ class Ichi{
 
 	public static function setRefreshExpiredAt(DateTimeInterface $date=null){
 		if($date==null){
-			return	static::$refresh_expired_at !== null ?  Carbon::now()->diff(static::$refresh_expired_at ) :  new DateInterval('P5D');
+			return	static::$refresh_expired_at !== null ?  Carbon::now()->diff(static::$refresh_expired_at ) :  new DateInterval('P1Y');
 		}
 		self::$refresh_expired_at=$date;
 		return new static;

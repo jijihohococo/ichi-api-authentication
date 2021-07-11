@@ -115,7 +115,7 @@ Route::group(['middleware' => ['auth:user_api']], function() {
     });
 ```
 
-<p>The default expiration time of token is 5 Days. You can customize this expiration time like below in "app/Providers/AuthServiceProvider.php" </p>
+<p>The default expiration time of token is 1 Year. You can customize this expiration time like below in "app/Providers/AuthServiceProvider.php" </p>
 
 <i>Gate has no connection with our library.</i>
 
@@ -186,7 +186,7 @@ Route::get('refresh_user_token',function(){
 ```
 
 
-<p>The default expiration time of refresh token is 5 Days. You can customize this expiration time like below in "app/Providers/AuthServiceProvider.php" </p>
+<p>The default expiration time of refresh token is 1 Year. You can customize this expiration time like below in "app/Providers/AuthServiceProvider.php" </p>
 
 <i>Gate has no connection with our library.</i>
 
