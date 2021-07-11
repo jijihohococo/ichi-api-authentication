@@ -57,7 +57,7 @@ class TokenRepository{
 
 	public static function countRevokedTokens($userId , $apiAuthId){
 		return IchiTokenAuthentication::where('user_id',$userId)
-		->where('api_authentication_id',$apiAuthId)->where('revoke',false)->count();
+		->where('api_authentication_id',$apiAuthId)->where('revoke',true)->count();
 	}
 
 	public static function revoke($id){

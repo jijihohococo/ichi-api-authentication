@@ -221,9 +221,10 @@ class AuthServiceProvider extends ServiceProvider
 ```
 ## Revoke Other Tokens 
 
-<p>If you want to make log out other devices with Accept => application/json and Authroization => Bearer {token} (that token will not be revoked).</p>
+<p>You can make log out other devices Accept => application/json and Authroization => Bearer {token} (that token will not be revoked).</p>
 
 ```php
+Route::group(['middleware' => ['auth:user_api']], function() {
 Route::get('revoke_other_token',function(){
     $user=\Auth::guard('user_api')->user();
     $user->logOutOtherTokens();
@@ -231,6 +232,13 @@ Route::get('revoke_other_token',function(){
         'message' => 'Logout other devices success'
     ]);
 });
+});
+```
+
+<p>You can get the number of revoked tokens of each user</p>
+
+```php
+User::findOrFail(1)->revokedTokens();
 ```
 
 ### Hope you enjoy!
