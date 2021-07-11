@@ -13,11 +13,7 @@ trait HasApi{
 	}
 
 	public function revoke(){
-		$tokenId=IchiTokenAuthentication::select('id')
-		->where('api_authentication_id', $this->getApiId() )
-		->where('user_id',$this->id)
-		->first()
-		->id;
+		$tokenId=TokenRepository::getToken($this->getApiId(),$this->id,'id')->id;
 		TokenRepository::revoke($tokenId);
 		RefreshTokenRepository::revokeByParentToken($tokenId);
 	}
