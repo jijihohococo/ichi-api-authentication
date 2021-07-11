@@ -18,8 +18,9 @@ trait HasApi{
 			$tokenId=$this->accessToken()->getTokenId();
 			TokenRepository::revoke($tokenId);
 			RefreshTokenRepository::revokeByParentToken($tokenId);
+		}else{
+			throw TokenException::invalidToken();
 		}
-		throw TokenException::invalidToken();
 	}
 	
 	public function withAccessToken($accessToken){
@@ -79,16 +80,19 @@ trait HasApi{
 				$this->email=$user->email;
 				$this->password=$user->password;
 				return $this->ichiToken();
+			}else{
+				throw RefreshTokenException::invalidToken();
 			}
-			throw RefreshTokenException::invalidToken();
+		}else{
+			throw TokenException::invalidToken();
 		}
-		throw TokenException::invalidToken();
 	}
 
 	public function logOutOtherTokens(){
 		if(app('request')->bearerToken() && TokenRepository::check($newToken=getTokenFromHeader(app('request')->header('Authorization')) , $apiId=$this->getApiId() ) ){
 			TokenRepository::revokeOtherTokens($newToken,$this->id,$apiId);
+		}else{
+			throw TokenException::invalidToken();
 		}
-		throw TokenException::invalidToken();
 	}
 }
