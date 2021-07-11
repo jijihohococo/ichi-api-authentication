@@ -1,6 +1,6 @@
 # Ichi API Authentication For Laravel
 
-<p>Since I had difficulties in using Laravel Passport due to the conflicts of PHP Version and League Oauth2 Library. I had the idea of developing my own API Authentication driver. This API Authentication library is developed without Oauth2. It is also my first time library development. The usage and library structure is really same as Laravel Passport's structure. It is aimed to use multiple API Authentication Guards in Laravel API Developments without facing difficulties that I had mentioned above. That development had took one week.</p>
+<p>Since I had difficulties in using Laravel Passport due to the conflicts of PHP Version and League Oauth2 Library. I had the idea of developing my own API Authentication driver. This API Authentication library is developed without Oauth2. It is also my first time library development. The usage and library structure is really same as Laravel Passport's structure. It is aimed to use multiple API Authentication Guards in Laravel API Developments without facing difficulties that I had mentioned above. The development frame had took one week.</p>
 
 <p>This library can be used for Laravel Version 5.6 to 8 with PHP Version 7.0 to above</p>
 
@@ -169,7 +169,7 @@ php artisan ichi:remove --expired
 
 ## Refresh Token
 
-<p>You can refresh token outside of authentication route like that with the headers Accept => application/json and refresh_token => Bearer {refreshToken}</p>
+<p>You can refresh token outside of authentication route like that with the headers Accept => application/json and refresh_token => Bearer {refreshToken}. You must refresh token when your token is expired when he/she is login.</p>
 
 ```php
 Route::get('refresh_user_token',function(){
@@ -184,7 +184,6 @@ Route::get('refresh_user_token',function(){
      ]);
 });
 ```
-<i>The result of refresh token will be null if the refresh token is not exist or refresh token is expired or the parent token of header refresh token is revoked (true)</i>
 
 
 <p>The default expiration time of refresh token is 5 Days. You can customize this expiration time like below in "app/Providers/AuthServiceProvider.php" </p>
@@ -220,6 +219,18 @@ class AuthServiceProvider extends ServiceProvider
     }
 
 ```
+## Revoke Other Tokens 
 
+<p>If you want to make log out other devices with Accept => application/json and Authroization => Bearer {token} (that token will not be revoked).</p>
+
+```php
+Route::get('revoke_other_token',function(){
+    $user=\Auth::guard('user_api')->user();
+    $user->logOutOtherTokens();
+    return response()->json([
+        'message' => 'Logout other devices success'
+    ]);
+});
+```
 
 ### Hope you enjoy!
