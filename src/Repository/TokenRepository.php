@@ -5,7 +5,7 @@ use JiJiHoHoCoCo\IchiApiAuthentication\Models\{IchiApiAuthentication,IchiTokenAu
 use JiJiHoHoCoCo\IchiApiAuthentication\IchiConfiguration;
 use Illuminate\Support\Facades\Hash;
 use JiJiHoHoCoCo\IchiApiAuthentication\Repository\RefreshTokenRepository;
-use Carbon\Carbon;
+
 class TokenRepository{
 
 	public $ichiConfiguration;

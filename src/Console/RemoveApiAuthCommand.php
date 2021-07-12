@@ -3,7 +3,6 @@
 namespace JiJiHoHoCoCo\IchiApiAuthentication\Console;
 use Illuminate\Console\Command;
 use JiJiHoHoCoCo\IchiApiAuthentication\Models\{IchiTokenAuthentication,IchiRefreshTokenAuthentication};
-use Carbon\Carbon;
 class RemoveApiAuthCommand extends Command{
 
 	/**
