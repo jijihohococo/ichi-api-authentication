@@ -9,22 +9,8 @@
 This package is Open Source According to [MIT license](LICENSE.md)
 
 ## Installing Library
-
-<p>Firstly, you need to add some data in your repositories of composer.json as shown as below</p>
-
 ```php
-"repositories": [
-        {
-            "name": "jijihohococo/ichi-api-authentication",
-            "type": "vcs",
-            "url": "git@github.com:jijihohococo/ichi-api-authentication.git"
-        }
-    ],
-```
-<p>And then, run below code in command line.</p>
-
-```php
-composer require jijihohococo/ichi-api-authentication
+composer require jijihohococo/ichi-api-authentication:dev-master
 ```
 
 ## Before Using

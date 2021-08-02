@@ -5,6 +5,7 @@ use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\Auth;
 use JiJiHoHoCoCo\IchiApiAuthentication\IchiUserProvider;
 use Illuminate\Auth\RequestGuard;
+use JiJiHoHoCoCo\IchiApiAuthentication\Console\{ClientApiAuthCommand,RemoveApiAuthCommand};
 class ApiAuthenticationServiceProvider extends ServiceProvider{
 	
 	public function boot(){
@@ -21,8 +22,8 @@ class ApiAuthenticationServiceProvider extends ServiceProvider{
 			], 'ichi-config');
 
 			$this->commands([
-				Console\ClientApiAuthCommand::class,
-				Console\RemoveApiAuthCommand::class
+				ClientApiAuthCommand::class,
+				RemoveApiAuthCommand::class
 			]);
 		}
 
